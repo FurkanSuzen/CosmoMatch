@@ -1,12 +1,13 @@
 import { motion } from "framer-motion";
 import { useEffect, useRef, useState } from "react";
+import { Link } from "react-router-dom";
 import logo from "./icon.svg";
 
 const links = [
-  { label: "Platform", href: "#features" },
-  { label: "Nasıl Çalışır?", href: "#how-it-works" },
-  { label: "Önizleme", href: "#platform" },
-  { label: "Partnerler", href: "#partners" },
+  { label: "Platform", to: "/#features" },
+  { label: "Nasıl Çalışır?", to: "/#how-it-works" },
+  { label: "Önizleme", to: "/#platform" },
+  { label: "Partnerler", to: "/#partners" },
 ];
 
 const SCROLL_TOP_SHOW = 56;
@@ -58,8 +59,8 @@ export function Navbar() {
       className="fixed inset-x-0 top-0 z-50 border-b border-white/[0.06] bg-slate-950/55 backdrop-blur-2xl will-change-transform"
     >
       <div className="mx-auto flex min-h-[4.5rem] max-w-6xl items-center justify-between gap-5 px-5 py-3 sm:min-h-[5.25rem] sm:gap-6 sm:px-10 sm:py-3.5">
-        <a
-          href="#top"
+        <Link
+          to="/"
           className="group flex items-center gap-4 text-left sm:gap-5"
         >
           <span className="relative flex h-12 w-12 shrink-0 items-center justify-center overflow-hidden rounded-2xl border border-white/10 bg-gradient-to-br from-indigo-500/30 to-cyan-400/10 p-1.5 shadow-[0_0_28px_-4px_rgba(99,102,241,0.55)] sm:h-14 sm:w-14">
@@ -73,27 +74,33 @@ export function Navbar() {
               Deep-tech OS
             </span>
           </span>
-        </a>
+        </Link>
 
         <nav className="hidden items-center gap-0.5 md:flex" aria-label="Primary">
           {links.map((l) => (
-            <a
-              key={l.href}
-              href={l.href}
+            <Link
+              key={l.to}
+              to={l.to}
               className="rounded-xl px-4 py-2.5 text-[15px] font-medium text-slate-400 transition hover:bg-white/[0.04] hover:text-slate-100"
             >
               {l.label}
-            </a>
+            </Link>
           ))}
         </nav>
 
-        <div className="flex items-center gap-3">
-          <a
-            href="#contact"
+        <div className="flex items-center gap-2 sm:gap-3">
+          <Link
+            to="/giris"
             className="hidden rounded-full border border-white/[0.1] bg-white/[0.03] px-5 py-2.5 text-[15px] font-medium text-slate-200 transition hover:border-white/[0.18] hover:bg-white/[0.06] sm:inline-flex"
           >
             Giriş Yap
-          </a>
+          </Link>
+          <Link
+            to="/kayit"
+            className="hidden rounded-full bg-gradient-to-r from-indigo-500 to-cyan-400 px-5 py-2.5 text-[15px] font-semibold text-slate-950 shadow-[0_0_24px_-6px_rgba(99,102,241,0.45)] transition hover:brightness-110 sm:inline-flex"
+          >
+            Kayıt ol
+          </Link>
           <button
             type="button"
             className="inline-flex h-12 w-12 items-center justify-center rounded-xl border border-white/10 bg-white/[0.03] text-slate-200 md:hidden"
@@ -136,15 +143,29 @@ export function Navbar() {
         >
           <nav className="flex flex-col gap-1">
             {links.map((l) => (
-              <a
-                key={l.href}
-                href={l.href}
+              <Link
+                key={l.to}
+                to={l.to}
                 className="rounded-lg px-2 py-3.5 text-base font-medium text-slate-300"
                 onClick={() => setOpen(false)}
               >
                 {l.label}
-              </a>
+              </Link>
             ))}
+            <Link
+              to="/giris"
+              className="rounded-lg px-2 py-3.5 text-base font-medium text-slate-200"
+              onClick={() => setOpen(false)}
+            >
+              Giriş Yap
+            </Link>
+            <Link
+              to="/kayit"
+              className="rounded-lg px-2 py-3.5 text-base font-semibold text-indigo-300"
+              onClick={() => setOpen(false)}
+            >
+              Kayıt ol
+            </Link>
           </nav>
         </motion.div>
       ) : null}

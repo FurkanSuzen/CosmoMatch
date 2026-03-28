@@ -8,7 +8,7 @@ const projects = [
   { name: "Kriyojenik yakıt hattı doğrulama", org: "Orbital Forge", match: "94%" },
   { name: "Yeniden giriş ısı kalkanı analizi", org: "Astra Labs", match: "91%" },
   { name: "Elektrikli itki test altyapısı paylaşımı", org: "Helios Drive", match: "89%" },
-];
+]; 
 
 export function PlatformPreview() {
   return (

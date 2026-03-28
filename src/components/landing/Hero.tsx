@@ -5,6 +5,7 @@ import {
   useTransform,
 } from "framer-motion";
 import { useRef } from "react";
+import { Link } from "react-router-dom";
 import { FloatingOrbitCards } from "./FloatingOrbitCards";
 import { OrbitalRings } from "./OrbitalRings";
 import { Starfield } from "./Starfield";
@@ -106,19 +107,19 @@ export function Hero() {
           variants={fadeUp}
           className="mt-10 flex flex-col items-center justify-center gap-3 sm:flex-row sm:gap-4"
         >
-          <a
-            href="#contact"
+          <Link
+            to="/kayit"
             className="group relative inline-flex h-12 min-w-[180px] items-center justify-center overflow-hidden rounded-full bg-gradient-to-r from-indigo-500 via-indigo-400 to-cyan-400 px-8 text-sm font-semibold text-slate-950 shadow-[0_0_40px_-8px_rgba(99,102,241,0.65)] transition hover:shadow-[0_0_56px_-6px_rgba(34,211,238,0.55)]"
           >
             <span className="relative z-10 tracking-tight">Başla</span>
             <span className="absolute inset-0 bg-gradient-to-r from-white/0 via-white/25 to-white/0 opacity-0 transition group-hover:opacity-100" />
-          </a>
-          <a
-            href="#features"
+          </Link>
+          <Link
+            to="/#features"
             className="inline-flex h-12 min-w-[180px] items-center justify-center rounded-full border border-white/[0.12] bg-white/[0.04] px-8 text-sm font-medium text-slate-200 backdrop-blur-xl transition hover:border-white/[0.2] hover:bg-white/[0.07]"
           >
             Ekosistemi Keşfet
-          </a>
+          </Link>
         </motion.div>
       </motion.div>
 
