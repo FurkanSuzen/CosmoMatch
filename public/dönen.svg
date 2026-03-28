@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 800">
+
+  <defs>
+    <!-- Global lacivert tonu -->
+    <linearGradient id="mainStroke" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#e5e7eb"/>
+      <stop offset="100%" stop-color="#1e3a8a"/>
+    </linearGradient>
+
+    <!-- CM biraz daha güçlü -->
+    <linearGradient id="cmGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#ffffff"/>
+      <stop offset="100%" stop-color="#1e3a8a"/>
+    </linearGradient>
+  </defs>
+
+  <style>
+    .globe {
+      transform-origin: 400px 400px;
+      animation: spin 36s linear infinite;
+    }
+
+    .orbit {
+      transform-origin: 400px 400px;
+      animation: orbitSpin 22s linear infinite;
+    }
+
+    @keyframes spin {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+
+    @keyframes orbitSpin {
+      from { transform: rotate(-18deg); }
+      to { transform: rotate(342deg); }
+    }
+
+    .cmText {
+      font-family: Arial, sans-serif;
+      font-size: 64px;
+      font-weight: 600;
+      fill: url(#cmGradient);
+      text-anchor: middle;
+      dominant-baseline: middle;
+      letter-spacing: 2px;
+    }
+  </style>
+
+  <!-- ORBIT -->
+  <g class="orbit" stroke="url(#mainStroke)">
+    <ellipse cx="400" cy="400" rx="295" ry="118" fill="none" stroke-width="6"/>
+    <circle cx="695" cy="400" r="9" fill="#1e3a8a"/>
+  </g>
+
+  <!-- GLOBE -->
+  <g class="globe" stroke="url(#mainStroke)">
+    <circle cx="400" cy="400" r="220" fill="none" stroke-width="6"/>
+
+    <ellipse cx="400" cy="400" rx="220" ry="82" fill="none" stroke-width="4"/>
+    <ellipse cx="400" cy="400" rx="220" ry="148" fill="none" stroke-width="4"/>
+
+    <ellipse cx="400" cy="400" rx="82" ry="220" fill="none" stroke-width="4"/>
+    <ellipse cx="400" cy="400" rx="148" ry="220" fill="none" stroke-width="4"/>
+  </g>
+
+  <!-- ORTA -->
+  <circle cx="400" cy="400" r="78" fill="none"/>
+
+  <!-- CM -->
+  <text x="400" y="402" class="cmText">CM</text>
+
+</svg>
