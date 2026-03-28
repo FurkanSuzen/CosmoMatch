@@ -21,6 +21,7 @@ type UserDoc = Models.Document & {
   name?: string;
   email?: string;
   company?: string;
+  skills?: string[];
 };
 
 function userDocPermissions(userId: string): string[] {
@@ -31,16 +32,34 @@ function userDocPermissions(userId: string): string[] {
   ];
 }
 
+function normalizeSkills(skills: string[] | undefined): string[] {
+  if (!Array.isArray(skills)) return [];
+  const seen = new Set<string>();
+  const out: string[] = [];
+  for (const s of skills) {
+    if (typeof s !== "string") continue;
+    const t = s.trim();
+    if (!t) continue;
+    const key = t.toLowerCase();
+    if (seen.has(key)) continue;
+    seen.add(key);
+    out.push(t);
+    if (out.length >= 80) break;
+  }
+  return out;
+}
+
 async function upsertUserDocument(
   userId: string,
-  data: { name: string; email: string; company?: string },
+  data: { name: string; email: string; company?: string; skills?: string[] },
 ): Promise<void> {
   const payload: Record<string, unknown> = {
     name: data.name,
     email: data.email,
   };
-  if (data.company !== undefined && data.company !== "")
-    payload.company = data.company;
+  if (data.company !== undefined)
+    payload.company = data.company === "" ? "" : data.company;
+  if (data.skills !== undefined) payload.skills = normalizeSkills(data.skills);
 
   await appwriteDatabases.upsertDocument({
     databaseId,
@@ -74,6 +93,7 @@ export async function loadUserWithProfile(aw: Models.User): Promise<User> {
         typeof doc.company === "string" && doc.company.length > 0
           ? doc.company
           : base.company,
+      skills: normalizeSkills(doc.skills),
     };
   } catch (e) {
     if (e instanceof AppwriteException && e.code === 404) {
@@ -81,6 +101,7 @@ export async function loadUserWithProfile(aw: Models.User): Promise<User> {
         name: base.name,
         email: base.email,
         company: base.company,
+        skills: [],
       });
       return base;
     }
@@ -92,7 +113,7 @@ export async function loadUserWithProfile(aw: Models.User): Promise<User> {
 /** Profili veritabanına yazar (kayıt / ayarlar güncellemesi). */
 export async function saveUserProfileToDb(
   userId: string,
-  data: { name: string; email: string; company?: string },
+  data: { name: string; email: string; company?: string; skills?: string[] },
 ): Promise<void> {
   if (!isUsersDbConfigured()) return;
   await upsertUserDocument(userId, data);
@@ -123,6 +144,7 @@ export async function listUsersFromDb(): Promise<User[]> {
         typeof d.company === "string" && d.company.trim().length > 0
           ? d.company.trim()
           : undefined,
+      skills: normalizeSkills(d.skills),
     };
   });
 }

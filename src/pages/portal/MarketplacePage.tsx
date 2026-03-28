@@ -19,6 +19,18 @@ const demo = [
     tag: "Paylaşımlı",
     budget: "Teklif aşaması",
   },
+  {
+    title: "Uzay uydu tasarımı",
+    org: "SpaceX",
+    tag: "TRL 7",
+    budget: "Ortak yatırım",
+  },
+  {
+    title: "Yeniden giriş ısı kalkanı analizi",
+    org: "Astra Labs",
+    tag: "İlan",
+    budget: "€1.5M",
+  },
 ];
 
 export function MarketplacePage() {

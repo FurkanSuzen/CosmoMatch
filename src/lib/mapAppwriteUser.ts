@@ -11,5 +11,6 @@ export function mapAppwriteUser(aw: Models.User): User {
       typeof prefs?.company === "string" && prefs.company.length > 0
         ? prefs.company
         : undefined,
+    skills: [],
   };
 }

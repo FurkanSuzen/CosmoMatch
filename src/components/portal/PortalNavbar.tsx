@@ -9,6 +9,7 @@ const nav = [
   { to: "/portal/marketplace", label: "Marketplace" },
   { to: "/portal/network", label: "Network" },
   { to: "/portal/eslesmeler", label: "Eşleşmeler" },
+  { to: "/portal/profil", label: "Profil" },
 ];
 
 const linkClass =
@@ -115,6 +116,14 @@ export function PortalNavbar() {
                   </p>
                   <p className="truncate text-xs text-slate-500">{user?.email}</p>
                 </div>
+                <Link
+                  to="/portal/profil"
+                  role="menuitem"
+                  onClick={() => setUserOpen(false)}
+                  className="block w-full px-4 py-3 text-left text-sm text-slate-200 transition hover:bg-white/[0.04]"
+                >
+                  Profil
+                </Link>
                 <button
                   type="button"
                   role="menuitem"

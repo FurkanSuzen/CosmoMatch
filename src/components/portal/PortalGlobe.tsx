@@ -141,6 +141,16 @@ const GLOBE_OPTS = {
       to: [12.9716, 77.5946] as [number, number],
       color: [0.35, 0.55, 0.95] as [number, number, number],
     },
+    {
+      from: [52.31, 4.54] as [number, number],
+      to: [34.6322, -120.6109] as [number, number],
+      color: [0.45, 0.4, 0.95] as [number, number, number],
+    },
+    {
+      from: [39.96, 116.2983] as [number, number],
+      to: [38.8891, -77.0364] as [number, number],
+      color: [0.35, 0.55, 0.95] as [number, number, number],
+    },
   ],
   arcColor: [0.3, 0.5, 0.9] as [number, number, number],
   arcWidth: 0.42,

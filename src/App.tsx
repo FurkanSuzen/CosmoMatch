@@ -8,6 +8,7 @@ import { DashboardPage } from "./pages/portal/DashboardPage";
 import { MarketplacePage } from "./pages/portal/MarketplacePage";
 import { NetworkPage } from "./pages/portal/NetworkPage";
 import { MatchesPage } from "./pages/portal/MatchesPage";
+import { ProfilePage } from "./pages/portal/ProfilePage";
 
 function App() {
   return (
@@ -22,6 +23,7 @@ function App() {
           <Route path="marketplace" element={<MarketplacePage />} />
           <Route path="network" element={<NetworkPage />} />
           <Route path="eslesmeler" element={<MatchesPage />} />
+          <Route path="profil" element={<ProfilePage />} />
         </Route>
       </Route>
 

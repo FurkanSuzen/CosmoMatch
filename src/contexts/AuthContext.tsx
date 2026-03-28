@@ -10,7 +10,7 @@ import {
   type ReactNode,
 } from "react";
 import { appwriteAccount, isAppwriteConfigured } from "../lib/appwrite";
-import { loadUserWithProfile } from "../lib/usersDb";
+import { loadUserWithProfile, saveUserProfileToDb } from "../lib/usersDb";
 import type { User } from "../types/user";
 
 export type { User };
@@ -33,6 +33,12 @@ type AuthContextValue = {
     email: string;
     password: string;
     company?: string;
+  }) => Promise<{ ok: true } | { ok: false; error: string }>;
+  /** Görünen ad ve tercihler (kurum); Auth + `users` koleksiyonu senkron. */
+  updateProfile: (data: {
+    name: string;
+    company?: string;
+    skills: string[];
   }) => Promise<{ ok: true } | { ok: false; error: string }>;
   logout: () => Promise<void>;
 };
@@ -141,6 +147,45 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     [],
   );
 
+  const updateProfile = useCallback(
+    async (data: { name: string; company?: string; skills: string[] }) => {
+      if (!isAppwriteConfigured) {
+        return {
+          ok: false as const,
+          error:
+            "Appwrite yapılandırılmadı. `.env` dosyasında VITE_APPWRITE_* değişkenlerini ayarlayın.",
+        };
+      }
+      const name = data.name.trim();
+      if (!name) return { ok: false as const, error: "Görünen ad gerekli." };
+      if (name.length > 128)
+        return { ok: false as const, error: "Görünen ad en fazla 128 karakter olabilir." };
+
+      const companyTrim = (data.company ?? "").trim();
+
+      try {
+        await appwriteAccount.updateName({ name });
+        const awAfterName = await appwriteAccount.get();
+        const prevPrefs = (awAfterName.prefs as Record<string, unknown>) ?? {};
+        await appwriteAccount.updatePrefs({
+          prefs: { ...prevPrefs, company: companyTrim },
+        });
+        const current = await appwriteAccount.get();
+        await saveUserProfileToDb(current.$id, {
+          name,
+          email: current.email,
+          company: companyTrim,
+          skills: data.skills,
+        });
+        setUser(await loadUserWithProfile(current));
+        return { ok: true as const };
+      } catch (e) {
+        return { ok: false as const, error: formatAuthError(e) };
+      }
+    },
+    [],
+  );
+
   const logout = useCallback(async () => {
     if (isAppwriteConfigured) {
       try {
@@ -153,8 +198,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   }, []);
 
   const value = useMemo(
-    () => ({ user, sessionReady, login, register, logout }),
-    [user, sessionReady, login, register, logout],
+    () => ({ user, sessionReady, login, register, updateProfile, logout }),
+    [user, sessionReady, login, register, updateProfile, logout],
   );
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
