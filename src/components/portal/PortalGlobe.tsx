@@ -283,7 +283,7 @@ export function PortalGlobe() {
   return (
     <div
       ref={containerRef}
-      className="relative mt-42 mx-auto w-full max-w-[min(100%,620px)] lg:mx-0"
+      className="relative mx-auto w-full max-w-[min(100%,620px)] lg:mx-0"
     >
       <div className="pointer-events-none absolute -inset-8 rounded-[40%] bg-[radial-gradient(ellipse_at_50%_50%,rgba(99,102,241,0.18),transparent_65%)] blur-3xl" />
       <div className="pointer-events-none absolute inset-0 rounded-3xl bg-[radial-gradient(ellipse_at_30%_20%,rgba(34,211,238,0.08),transparent_50%)]" />

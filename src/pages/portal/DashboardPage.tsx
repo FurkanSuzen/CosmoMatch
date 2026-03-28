@@ -86,7 +86,7 @@ export function DashboardPage() {
             Hoş geldiniz
           </p>
           <h1 className="mt-2 text-3xl font-semibold tracking-[-0.03em] text-white sm:text-4xl">
-            {firstName}, CosmoMatch portalındasınız
+            {firstName}, <a className="bg-gradient-to-r from-blue-400 to-blue-300 text-transparent bg-clip-text" href="/">CosmoMatch</a> portalındasınız
           </h1>
           <p className="mt-4 max-w-xl text-base leading-relaxed text-slate-400">
             Marketplace, network ve eşleşmeler tek panelde. Aşağıdan modüllere

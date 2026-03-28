@@ -1,16 +1,9 @@
-import { AppwriteException, Permission, Role } from "appwrite";
+import { AppwriteException, Permission, Query, Role } from "appwrite";
 import type { Models } from "appwrite";
 import { appwriteDatabases } from "./appwrite";
 import { mapAppwriteUser } from "./mapAppwriteUser";
 import type { User } from "../types/user";
 
-/**
- * Appwrite Console’da oluştur:
- * - Database (ID → .env’de VITE_APPWRITE_DATABASE_ID)
- * - Collection `users` (ID → VITE_APPWRITE_USERS_COLLECTION_ID)
- * Öznitelikler: `name` (string, required), `email` (string, required), `company` (string, optional)
- * İzinler: koleksiyonda “Document Security” açıksa, aşağıdaki permissions yeterli.
- */
 
 const databaseId = import.meta.env.VITE_APPWRITE_DATABASE_ID ?? "";
 const usersCollectionId = import.meta.env.VITE_APPWRITE_USERS_COLLECTION_ID ?? "";
@@ -103,4 +96,33 @@ export async function saveUserProfileToDb(
 ): Promise<void> {
   if (!isUsersDbConfigured()) return;
   await upsertUserDocument(userId, data);
+}
+
+/**
+ * `users` koleksiyonundaki tüm profiller (Appwrite okuma izinleri açık olmalı).
+ */
+export async function listUsersFromDb(): Promise<User[]> {
+  if (!isUsersDbConfigured()) return [];
+
+  const res = await appwriteDatabases.listDocuments({
+    databaseId,
+    collectionId: usersCollectionId,
+    queries: [Query.limit(200), Query.orderDesc("$createdAt")],
+  });
+
+  return res.documents.map((doc) => {
+    const d = doc as UserDoc;
+    return {
+      id: doc.$id,
+      email: typeof d.email === "string" ? d.email : "",
+      name:
+        typeof d.name === "string" && d.name.trim().length > 0
+          ? d.name.trim()
+          : "İsimsiz",
+      company:
+        typeof d.company === "string" && d.company.trim().length > 0
+          ? d.company.trim()
+          : undefined,
+    };
+  });
 }
