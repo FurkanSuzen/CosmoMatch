@@ -1,12 +1,12 @@
 import { motion } from "framer-motion";
 import { useEffect, useRef, useState } from "react";
-import logo from "./dönen.svg";
+import logo from "./icon.svg";
 
 const links = [
   { label: "Platform", href: "#features" },
   { label: "Nasıl Çalışır?", href: "#how-it-works" },
   { label: "Önizleme", href: "#platform" },
-  { label: "Partneler", href: "#partners" },
+  { label: "Partnerler", href: "#partners" },
 ];
 
 const SCROLL_TOP_SHOW = 56;

@@ -22,7 +22,7 @@ export function Footer() {
           </p>
           <div className="relative mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row">
             <a
-              href="mailto:hello@cosmomatch.io"
+              href="mailto:cosmomatchweb@gmail.com"
               className="inline-flex h-12 min-w-[200px] items-center justify-center rounded-full bg-white px-8 text-sm font-semibold text-slate-950 shadow-[0_0_40px_-10px_rgba(255,255,255,0.4)] transition hover:bg-slate-100"
             >
               cosmomatchweb@gmail.com
