@@ -1,97 +1,32 @@
 /* eslint-disable react-refresh/only-export-components -- context + hook pattern */
+import { AppwriteException, ID } from "appwrite";
 import {
   createContext,
   useCallback,
   useContext,
   useEffect,
   useMemo,
-  useSyncExternalStore,
+  useState,
   type ReactNode,
 } from "react";
+import { appwriteAccount, isAppwriteConfigured } from "../lib/appwrite";
+import { loadUserWithProfile } from "../lib/usersDb";
+import type { User } from "../types/user";
 
-/** Demo hesap — giriş sayfasında da gösterilir (yalnızca yerel mock). */
-export const MOCK_DEMO_EMAIL = "demo@cosmomatch.io";
-export const MOCK_DEMO_PASSWORD = "CosmoMatch2026!";
+export type { User };
 
-export type User = {
-  id: string;
-  email: string;
-  name: string;
-  company?: string;
-};
-
-type StoredUser = User & { password: string };
-
-const SESSION_KEY = "cosmomatch_session";
-const USERS_KEY = "cosmomatch_users";
-
-function readSession(): User | null {
-  try {
-    const raw = localStorage.getItem(SESSION_KEY);
-    if (!raw) return null;
-    return JSON.parse(raw) as User;
-  } catch {
-    return null;
+function formatAuthError(e: unknown): string {
+  if (e instanceof AppwriteException) {
+    return e.message || "İstek başarısız.";
   }
-}
-
-function readUsers(): StoredUser[] {
-  try {
-    const raw = localStorage.getItem(USERS_KEY);
-    if (!raw) return [];
-    return JSON.parse(raw) as StoredUser[];
-  } catch {
-    return [];
-  }
-}
-
-function writeUsers(users: StoredUser[]) {
-  localStorage.setItem(USERS_KEY, JSON.stringify(users));
-}
-
-function writeSession(user: User | null) {
-  if (!user) localStorage.removeItem(SESSION_KEY);
-  else localStorage.setItem(SESSION_KEY, JSON.stringify(user));
-}
-
-const listeners = new Set<() => void>();
-let cache = readSession();
-
-function getSnapshot() {
-  return cache;
-}
-
-function getServerSnapshot() {
-  return null;
-}
-
-function subscribe(cb: () => void) {
-  listeners.add(cb);
-  return () => listeners.delete(cb);
-}
-
-function emit() {
-  cache = readSession();
-  listeners.forEach((l) => l());
-}
-
-function ensureMockDemoUser() {
-  if (typeof localStorage === "undefined") return;
-  const users = readUsers();
-  const normalized = MOCK_DEMO_EMAIL.toLowerCase();
-  if (users.some((u) => u.email === normalized)) return;
-  users.push({
-    id: "cm-mock-demo-1",
-    email: normalized,
-    name: "Demo Kullanıcı",
-    company: "CosmoMatch Labs",
-    password: MOCK_DEMO_PASSWORD,
-  });
-  writeUsers(users);
+  if (e instanceof Error) return e.message;
+  return "Beklenmeyen bir hata oluştu.";
 }
 
 type AuthContextValue = {
   user: User | null;
+  /** Appwrite oturumu kontrol edildi (veya yapılandırma yok). */
+  sessionReady: boolean;
   login: (email: string, password: string) => Promise<{ ok: true } | { ok: false; error: string }>;
   register: (data: {
     name: string;
@@ -99,38 +34,63 @@ type AuthContextValue = {
     password: string;
     company?: string;
   }) => Promise<{ ok: true } | { ok: false; error: string }>;
-  logout: () => void;
+  logout: () => Promise<void>;
 };
 
 const AuthContext = createContext<AuthContextValue | null>(null);
 
 export function AuthProvider({ children }: { children: ReactNode }) {
-  const user = useSyncExternalStore(subscribe, getSnapshot, getServerSnapshot);
+  const [user, setUser] = useState<User | null>(null);
+  const [sessionReady, setSessionReady] = useState(false);
 
   useEffect(() => {
-    ensureMockDemoUser();
+    if (!isAppwriteConfigured) {
+      setUser(null);
+      setSessionReady(true);
+      return;
+    }
+
+    let cancelled = false;
+    (async () => {
+      try {
+        const aw = await appwriteAccount.get();
+        if (!cancelled) setUser(await loadUserWithProfile(aw));
+      } catch {
+        if (!cancelled) setUser(null);
+      } finally {
+        if (!cancelled) setSessionReady(true);
+      }
+    })();
+
+    return () => {
+      cancelled = true;
+    };
   }, []);
 
   const login = useCallback(
     async (email: string, password: string) => {
+      if (!isAppwriteConfigured) {
+        return {
+          ok: false as const,
+          error:
+            "Appwrite yapılandırılmadı. Proje kökünde `.env` içinde VITE_APPWRITE_ENDPOINT ve VITE_APPWRITE_PROJECT_ID tanımlayın.",
+        };
+      }
       const normalized = email.trim().toLowerCase();
       if (!normalized || !password)
         return { ok: false as const, error: "E-posta ve şifre gerekli." };
 
-      const users = readUsers();
-      const found = users.find((u) => u.email === normalized);
-      if (!found || found.password !== password)
-        return { ok: false as const, error: "E-posta veya şifre hatalı." };
-
-      const session: User = {
-        id: found.id,
-        email: found.email,
-        name: found.name,
-        company: found.company,
-      };
-      writeSession(session);
-      emit();
-      return { ok: true as const };
+      try {
+        await appwriteAccount.createEmailPasswordSession({
+          email: normalized,
+          password,
+        });
+        const aw = await appwriteAccount.get();
+        setUser(await loadUserWithProfile(aw));
+        return { ok: true as const };
+      } catch (e) {
+        return { ok: false as const, error: formatAuthError(e) };
+      }
     },
     [],
   );
@@ -142,6 +102,13 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       password: string;
       company?: string;
     }) => {
+      if (!isAppwriteConfigured) {
+        return {
+          ok: false as const,
+          error:
+            "Appwrite yapılandırılmadı. `.env` dosyasında VITE_APPWRITE_* değişkenlerini ayarlayın.",
+        };
+      }
       const email = data.email.trim().toLowerCase();
       const name = data.name.trim();
       if (!name || !email || !data.password)
@@ -149,41 +116,45 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       if (data.password.length < 8)
         return { ok: false as const, error: "Şifre en az 8 karakter olmalı." };
 
-      const users = readUsers();
-      if (users.some((u) => u.email === email))
-        return { ok: false as const, error: "Bu e-posta zaten kayıtlı." };
-
-      const newUser: StoredUser = {
-        id: crypto.randomUUID(),
-        email,
-        name,
-        company: data.company?.trim() || undefined,
-        password: data.password,
-      };
-      users.push(newUser);
-      writeUsers(users);
-
-      const session: User = {
-        id: newUser.id,
-        email: newUser.email,
-        name: newUser.name,
-        company: newUser.company,
-      };
-      writeSession(session);
-      emit();
-      return { ok: true as const };
+      try {
+        await appwriteAccount.create({
+          userId: ID.unique(),
+          email,
+          password: data.password,
+          name,
+        });
+        await appwriteAccount.createEmailPasswordSession({
+          email,
+          password: data.password,
+        });
+        const company = data.company?.trim();
+        if (company) {
+          await appwriteAccount.updatePrefs({ prefs: { company } });
+        }
+        const aw = await appwriteAccount.get();
+        setUser(await loadUserWithProfile(aw));
+        return { ok: true as const };
+      } catch (e) {
+        return { ok: false as const, error: formatAuthError(e) };
+      }
     },
     [],
   );
 
-  const logout = useCallback(() => {
-    writeSession(null);
-    emit();
+  const logout = useCallback(async () => {
+    if (isAppwriteConfigured) {
+      try {
+        await appwriteAccount.deleteSession({ sessionId: "current" });
+      } catch {
+        /* oturum zaten yoksa yine de yerel state temizlenir */
+      }
+    }
+    setUser(null);
   }, []);
 
   const value = useMemo(
-    () => ({ user, login, register, logout }),
-    [user, login, register, logout],
+    () => ({ user, sessionReady, login, register, logout }),
+    [user, sessionReady, login, register, logout],
   );
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;

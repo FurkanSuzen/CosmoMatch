@@ -2,14 +2,10 @@ import { motion } from "framer-motion";
 import { useEffect, useState, type FormEvent } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { AuthShell } from "../components/auth/AuthShell";
-import {
-  MOCK_DEMO_EMAIL,
-  MOCK_DEMO_PASSWORD,
-  useAuth,
-} from "../contexts/AuthContext";
+import { useAuth } from "../contexts/AuthContext";
 
 export function LoginPage() {
-  const { login, user } = useAuth();
+  const { login, user, sessionReady } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
   const state = location.state as { from?: string } | null;
@@ -22,8 +18,8 @@ export function LoginPage() {
   const [pending, setPending] = useState(false);
 
   useEffect(() => {
-    if (user) navigate(from, { replace: true });
-  }, [user, from, navigate]);
+    if (sessionReady && user) navigate(from, { replace: true });
+  }, [sessionReady, user, from, navigate]);
 
   async function onSubmit(e: FormEvent) {
     e.preventDefault();
@@ -38,31 +34,20 @@ export function LoginPage() {
     navigate(from, { replace: true });
   }
 
+  if (!sessionReady) {
+    return (
+      <div className="flex min-h-[100dvh] items-center justify-center bg-space-void text-sm text-slate-400">
+        Yükleniyor…
+      </div>
+    );
+  }
+
   return (
     <AuthShell
       title="Tekrar hoş geldiniz"
       subtitle="CosmoMatch portalına giriş yaparak eşleşmelerinizi ve ağınızı yönetin."
     >
       <form onSubmit={onSubmit} className="space-y-5">
-        <div className="rounded-xl border border-indigo-400/20 bg-indigo-500/[0.07] px-4 py-3 text-xs leading-relaxed text-slate-400">
-          <p className="font-medium text-slate-300">Demo hesap</p>
-          <p className="mt-1 font-mono text-[11px] text-slate-500">
-            {MOCK_DEMO_EMAIL}
-            <br />
-            <span className="select-all">{MOCK_DEMO_PASSWORD}</span>
-          </p>
-          <button
-            type="button"
-            onClick={() => {
-              setEmail(MOCK_DEMO_EMAIL);
-              setPassword(MOCK_DEMO_PASSWORD);
-            }}
-            className="mt-3 text-indigo-300/95 underline-offset-2 transition hover:text-indigo-200 hover:underline"
-          >
-            Alanları doldur
-          </button>
-        </div>
-
         {error ? (
           <motion.p
             initial={{ opacity: 0, y: -6 }}

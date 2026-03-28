@@ -5,7 +5,7 @@ import { AuthShell } from "../components/auth/AuthShell";
 import { useAuth } from "../contexts/AuthContext";
 
 export function RegisterPage() {
-  const { register, user } = useAuth();
+  const { register, user, sessionReady } = useAuth();
   const navigate = useNavigate();
 
   const [name, setName] = useState("");
@@ -17,8 +17,8 @@ export function RegisterPage() {
   const [pending, setPending] = useState(false);
 
   useEffect(() => {
-    if (user) navigate("/portal", { replace: true });
-  }, [user, navigate]);
+    if (sessionReady && user) navigate("/portal", { replace: true });
+  }, [sessionReady, user, navigate]);
 
   async function onSubmit(e: FormEvent) {
     e.preventDefault();
@@ -35,6 +35,14 @@ export function RegisterPage() {
       return;
     }
     navigate("/portal", { replace: true });
+  }
+
+  if (!sessionReady) {
+    return (
+      <div className="flex min-h-[100dvh] items-center justify-center bg-space-void text-sm text-slate-400">
+        Yükleniyor…
+      </div>
+    );
   }
 
   return (
