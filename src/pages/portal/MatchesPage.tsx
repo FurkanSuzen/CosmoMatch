@@ -1,5 +1,5 @@
 import { AnimatePresence, motion } from "framer-motion";
-import { useCallback, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 import { JobDetailModal } from "../../components/matches/JobDetailModal";
 import { useAuth } from "../../contexts/AuthContext";
@@ -11,6 +11,11 @@ import {
   getCarrierCategories,
   getJobFilterOptions,
 } from "../../lib/carriersData";
+import {
+  getStoredAccountPlan,
+  planAllowsAiMatch,
+  subscribeAccountPlan,
+} from "../../lib/accountPlan";
 import {
   fetchAiMatchScores,
   isAiMatchConfigured,
@@ -171,6 +176,23 @@ export function MatchesPage() {
   const [aiStatus, setAiStatus] = useState<"idle" | "loading" | "ok" | "error">(
     "idle",
   );
+  const [accountPlan, setAccountPlan] = useState(() =>
+    getStoredAccountPlan(user?.id),
+  );
+
+  useEffect(() => {
+    setAccountPlan(getStoredAccountPlan(user?.id));
+  }, [user?.id]);
+
+  useEffect(() => subscribeAccountPlan(() => setAccountPlan(getStoredAccountPlan(user?.id))), [user?.id]);
+
+  const aiPlanOk = planAllowsAiMatch(accountPlan);
+
+  useEffect(() => {
+    if (aiPlanOk) return;
+    setAiScores(null);
+    setAiStatus("idle");
+  }, [aiPlanOk]);
 
   const filtered = useMemo(
     () =>
@@ -185,7 +207,7 @@ export function MatchesPage() {
   );
 
   const runAiMatch = useCallback(async () => {
-    if (!isAiMatchConfigured() || userSkills.length === 0) return;
+    if (!aiPlanOk || !isAiMatchConfigured() || userSkills.length === 0) return;
     setAiStatus("loading");
     setAiScores(null);
     try {
@@ -197,7 +219,7 @@ export function MatchesPage() {
       setAiScores(null);
       setAiStatus("error");
     }
-  }, [userSkills, allJobs]);
+  }, [userSkills, allJobs, aiPlanOk]);
 
   const sorted = useMemo(
     () => sortJobs(filtered, sort, userSkills, aiScores),
@@ -219,7 +241,10 @@ export function MatchesPage() {
     isAiMatchConfigured() && userSkills.length > 0 && aiStatus === "loading";
 
   const aiMatchDisabled =
-    !isAiMatchConfigured() || userSkills.length === 0 || aiStatus === "loading";
+    !aiPlanOk ||
+    !isAiMatchConfigured() ||
+    userSkills.length === 0 ||
+    aiStatus === "loading";
 
   return (
     <div className="flex flex-col gap-10 pb-8">
@@ -244,7 +269,8 @@ export function MatchesPage() {
             <strong className="font-medium text-slate-300">
               AI ile eşleştir
             </strong>{" "}
-            ile anlamsal uyum isteğe bağlı çalışır. En uygun 3 ilan panonuzda yerel olarak saklanır.
+            (Bireysel Premium) ile anlamsal uyum çalışır. En uygun 3 ilan panonuzda
+            yerel olarak saklanır.
           </p>
           <div className="mt-6 flex flex-wrap items-center gap-3">
             <button
@@ -262,7 +288,18 @@ export function MatchesPage() {
                 <>AI ile eşleştir</>
               )}
             </button>
-            {!isAiMatchConfigured() ? (
+            {!aiPlanOk ? (
+              <span className="text-xs text-slate-500">
+                AI için{" "}
+                <Link
+                  to="/portal/profil"
+                  className="font-medium text-violet-300 underline-offset-2 hover:underline"
+                >
+                  Profil → Bireysel Premium
+                </Link>{" "}
+                planını seçin.
+              </span>
+            ) : !isAiMatchConfigured() ? (
               <span className="text-xs text-slate-500">
                 OpenAI anahtarı gerekir (<code className="rounded bg-white/5 px-1">VITE_OPENAI_API_KEY</code>)
               </span>
@@ -314,7 +351,7 @@ export function MatchesPage() {
         </div>
       ) : null}
 
-      {isAiMatchConfigured() && userSkills.length > 0 ? (
+      {aiPlanOk && isAiMatchConfigured() && userSkills.length > 0 ? (
         <div
           className={`rounded-2xl border px-4 py-3 text-sm ${
             aiStatus === "error"
@@ -352,6 +389,18 @@ export function MatchesPage() {
               basın.
             </>
           )}
+        </div>
+      ) : userSkills.length > 0 && !aiPlanOk ? (
+        <div className="rounded-2xl border border-violet-500/20 bg-violet-500/[0.07] px-4 py-3 text-sm text-violet-100/90">
+          <strong className="font-semibold">AI eşleşme:</strong> Şirket veya
+          Yatırımcı planında anlamsal skor kapalıdır.{" "}
+          <Link
+            to="/portal/profil"
+            className="font-medium text-white underline-offset-2 hover:underline"
+          >
+            Profilde Bireysel Premium
+          </Link>{" "}
+          seçerek açabilirsiniz (yalnızca arayüz seçimi).
         </div>
       ) : userSkills.length > 0 ? (
         <div className="rounded-2xl border border-white/[0.08] bg-white/[0.03] px-4 py-3 text-sm text-slate-400">

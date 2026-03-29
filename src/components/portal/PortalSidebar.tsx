@@ -1,6 +1,7 @@
 import { AnimatePresence, motion } from "framer-motion";
 import { Link, NavLink, useNavigate } from "react-router-dom";
 import { useAuth } from "../../contexts/AuthContext";
+import { AccountRoleBadge } from "./AccountRoleBadge";
 import logo from "../layout/icon.svg";
 
 const nav = [
@@ -91,8 +92,11 @@ export function PortalSidebar({ mobileOpen, onNavigate }: Props) {
                 .toUpperCase()}
             </span>
             <span className="min-w-0 flex-1 text-left">
-              <span className="block truncate text-sm font-medium text-slate-100">
-                {user?.name}
+              <span className="flex min-w-0 items-center gap-2">
+                <span className="truncate text-sm font-medium text-slate-100">
+                  {user?.name}
+                </span>
+                {user?.id ? <AccountRoleBadge userId={user.id} /> : null}
               </span>
               <span className="block truncate text-xs text-slate-500">
                 {user?.email}

@@ -20,6 +20,13 @@ export type JobSalary = {
   displayText: string;
 };
 
+export type JobEmails = {
+  career: string;
+  general: string;
+  privacy?: string;
+  kep?: string;
+};
+
 export type JobOffer = {
   id: string;
   title: string;
@@ -31,6 +38,7 @@ export type JobOffer = {
   contractType: string;
   publishDate: string;
   applicationDeadline: string;
+  emails?: JobEmails;
   requirements: JobRequirements;
   benefits: string[];
   salary: JobSalary;

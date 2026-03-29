@@ -25,6 +25,8 @@ export type ProductListing = {
   title: string;
   description: string;
   companyName: string;
+  /** Alıcıların iletişime geçeceği satıcı e-postası */
+  contactEmail: string;
   sellerUserId: string;
   category: MarketplaceCategoryId;
   /** Örn. €2.1M, Teklif üzerine, Ortak yatırım */
@@ -38,6 +40,7 @@ export type CreateProductListingInput = {
   title: string;
   description: string;
   companyName: string;
+  contactEmail: string;
   category: MarketplaceCategoryId;
   priceLabel: string;
   trl: string;
@@ -52,6 +55,7 @@ export const DEMO_PRODUCT_LISTINGS: ProductListing[] = [
     description:
       "Çift bantlı K/Ka uyumlu payload; termal model ve EMC raporları dahil. TRL 6 doğrulama için ortak test ortamı aranıyor.",
     companyName: "Astra Labs",
+    contactEmail: "pazar@astralabs.example.com",
     sellerUserId: "demo",
     category: "payload",
     priceLabel: "€2.1M",
@@ -65,6 +69,7 @@ export const DEMO_PRODUCT_LISTINGS: ProductListing[] = [
     description:
       "Hall etkili ölçüm hatları ve vakum haznesi ile 5–15 kW sınıfı itki karakterizasyonu. Kurulum ve eğitim paketi opsiyonel.",
     companyName: "Helios Drive",
+    contactEmail: "contact@heliosdrive.example.com",
     sellerUserId: "demo",
     category: "propulsion",
     priceLabel: "Teklif üzerine",
@@ -78,6 +83,7 @@ export const DEMO_PRODUCT_LISTINGS: ProductListing[] = [
     description:
       "CCSDS ve ECSS uyumlu güvenlik mimarisi; penetrasyon testi ve risk kaydı teslimi.",
     companyName: "Meridian Aerospace",
+    contactEmail: "sales@meridian.example.com",
     sellerUserId: "demo",
     category: "ground",
     priceLabel: "Ortak yatırım",
@@ -91,6 +97,7 @@ export const DEMO_PRODUCT_LISTINGS: ProductListing[] = [
     description:
       "Düşük yörünge için batch OD/ID çözümü; Python ve C API. Lisans ve SLA seçenekleri.",
     companyName: "Orbital Forge",
+    contactEmail: "sdk@orbitalforge.example.com",
     sellerUserId: "demo",
     category: "software",
     priceLabel: "Yıllık lisans",

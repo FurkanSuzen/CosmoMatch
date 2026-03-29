@@ -1,6 +1,12 @@
 import { motion } from "framer-motion";
 import type { FlatJobOffer } from "../../types/carriers";
-import { carriersMeta, categoryLabel, formatDeadline } from "../../lib/carriersData";
+import {
+  carriersMeta,
+  categoryLabel,
+  contactEmailForJob,
+  formatDeadline,
+  openJobContactMail,
+} from "../../lib/carriersData";
 
 type Props = {
   job: FlatJobOffer;
@@ -37,6 +43,8 @@ function Section({
 }
 
 export function JobDetailModal({ job, matchPercent, onClose }: Props) {
+  const contactEmail = contactEmailForJob(job);
+
   return (
     <motion.div
       className="fixed inset-0 z-50 flex items-end justify-center p-4 sm:items-center"
@@ -180,6 +188,32 @@ export function JobDetailModal({ job, matchPercent, onClose }: Props) {
                 </li>
               ))}
             </ul>
+          </div>
+
+          <div className="mt-8 rounded-xl border border-violet-500/20 bg-violet-500/[0.07] px-4 py-4">
+            <p className="text-sm text-slate-300">
+              Şirketle doğrudan iletişime geçmek için varsayılan e-posta uygulamanız açılır;
+              konu ve metin bu ilan için hazırlanır.
+            </p>
+            <div className="mt-4 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+              <button
+                type="button"
+                disabled={!contactEmail}
+                onClick={() => openJobContactMail(job)}
+                className="inline-flex items-center justify-center rounded-xl bg-gradient-to-r from-violet-600 to-indigo-600 px-5 py-2.5 text-sm font-semibold text-white shadow-lg shadow-violet-500/20 transition hover:from-violet-500 hover:to-indigo-500 disabled:cursor-not-allowed disabled:opacity-45 disabled:shadow-none"
+              >
+                İletişime geç
+              </button>
+              {contactEmail ? (
+                <span className="text-xs text-slate-500 break-all sm:text-right">
+                  {contactEmail}
+                </span>
+              ) : (
+                <span className="text-xs text-slate-500">
+                  Bu ilan için kariyer veya genel iletişim e-postası tanımlı değil.
+                </span>
+              )}
+            </div>
           </div>
 
           <p className="mt-8 text-xs text-slate-600">

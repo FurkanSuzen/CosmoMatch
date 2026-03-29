@@ -1,7 +1,14 @@
 import { motion } from "framer-motion";
 import { useEffect, useState, type FormEvent } from "react";
+import { AccountPlanPicker } from "../../components/portal/AccountPlanPicker";
+import { AccountRoleBadge } from "../../components/portal/AccountRoleBadge";
 import { ProfileSkillPicker } from "../../components/portal/ProfileSkillPicker";
 import { useAuth } from "../../contexts/AuthContext";
+import {
+  getAccountPlanById,
+  getStoredAccountPlan,
+  subscribeAccountPlan,
+} from "../../lib/accountPlan";
 import { appwriteAccount, isAppwriteConfigured } from "../../lib/appwrite";
 import { skillsEqual } from "../../lib/skillsUtils";
 
@@ -45,6 +52,9 @@ export function ProfilePage() {
     null,
   );
   const [joinedAt, setJoinedAt] = useState<string | null>(null);
+  const [planLabel, setPlanLabel] = useState(() =>
+    getAccountPlanById(getStoredAccountPlan(user?.id)).title,
+  );
 
   useEffect(() => {
     if (!user) return;
@@ -52,6 +62,18 @@ export function ProfilePage() {
     setCompany(user.company ?? "");
     setSkills(user.skills);
   }, [user]);
+
+  useEffect(() => {
+    setPlanLabel(getAccountPlanById(getStoredAccountPlan(user?.id)).title);
+  }, [user?.id]);
+
+  useEffect(
+    () =>
+      subscribeAccountPlan(() =>
+        setPlanLabel(getAccountPlanById(getStoredAccountPlan(user?.id)).title),
+      ),
+    [user?.id],
+  );
 
   useEffect(() => {
     let cancelled = false;
@@ -119,8 +141,9 @@ export function ProfilePage() {
         <p className="text-[11px] font-semibold uppercase tracking-[0.28em] text-slate-500">
           Hesap
         </p>
-        <h1 className="mt-2 text-3xl font-bold tracking-[-0.03em] text-white">
+        <h1 className="mt-2 flex flex-wrap items-center gap-3 text-3xl font-bold tracking-[-0.03em] text-white">
           Profil
+          <AccountRoleBadge userId={user.id} />
         </h1>
         <p className="mt-3 text-slate-400">
           Görünen adınızı, kurum bilgisini ve teknoloji yetenek listenizi
@@ -207,6 +230,8 @@ export function ProfilePage() {
             ) : null}
           </div>
         </form>
+
+        <AccountPlanPicker userId={user.id} />
       </motion.div>
 
       <motion.aside
@@ -220,6 +245,15 @@ export function ProfilePage() {
             Hesap bilgileri
           </h2>
           <dl className="mt-5 space-y-4 text-sm">
+            <div>
+              <dt className="text-xs font-medium uppercase tracking-wider text-slate-500">
+                Hesap planı
+              </dt>
+              <dd className="mt-1 text-slate-200">{planLabel}</dd>
+              <p className="mt-1 text-xs text-slate-500">
+                Aşağıdan plan değiştirebilirsiniz; yalnızca arayüz, ödeme yoktur.
+              </p>
+            </div>
             <div>
               <dt className="text-xs font-medium uppercase tracking-wider text-slate-500">
                 E-posta

@@ -1,0 +1,1291 @@
+{
+  "platform": {
+    "name": "CosmoMatch",
+    "slug": "cosmomatch",
+    "version": "1.2.0",
+    "language": "tr",
+    "currencyDefault": "USD",
+    "lastUpdated": "2026-03-29"
+  },
+  "filters": {
+    "organizations": [
+      "TUSAŞ",
+      "NASA",
+      "ESA",
+      "ROKETSAN",
+      "SPACEX"
+    ],
+    "countries": [
+      "Türkiye",
+      "Amerika Birleşik Devletleri",
+      "Belçika",
+      "Almanya",
+      "Hollanda"
+    ],
+    "employmentTypes": [
+      "Tam Zamanlı"
+    ],
+    "contractTypes": [
+      "Kalıcı",
+      "4 Yıl, Süresi Uzatılabilir",
+      "Belirtilmemiş"
+    ],
+    "categories": [
+      "Mühendislik",
+      "Yazılım",
+      "Sistem Mühendisliği",
+      "Aviyonik",
+      "Test ve Entegrasyon",
+      "Üretim",
+      "Proje Yönetimi",
+      "İş Geliştirme",
+      "Politika ve İlişkiler",
+      "Siber Güvenlik",
+      "Çevre ve Güvenlik"
+    ],
+    "statusOptions": [
+      "Açık",
+      "Kapalı"
+    ]
+  },
+  "categories": [
+    {
+      "key": "engineering",
+      "label": "Mühendislik"
+    },
+    {
+      "key": "software",
+      "label": "Yazılım"
+    },
+    {
+      "key": "systems",
+      "label": "Sistem Mühendisliği"
+    },
+    {
+      "key": "avionics",
+      "label": "Aviyonik"
+    },
+    {
+      "key": "testIntegration",
+      "label": "Test ve Entegrasyon"
+    },
+    {
+      "key": "manufacturing",
+      "label": "Üretim"
+    },
+    {
+      "key": "projectManagement",
+      "label": "Proje Yönetimi"
+    },
+    {
+      "key": "businessDevelopment",
+      "label": "İş Geliştirme"
+    },
+    {
+      "key": "policyRelations",
+      "label": "Politika ve İlişkiler"
+    },
+    {
+      "key": "cybersecurity",
+      "label": "Siber Güvenlik"
+    },
+    {
+      "key": "environmentSafety",
+      "label": "Çevre ve Güvenlik"
+    }
+  ],
+  "organizations": [
+    {
+      "organization": "TUSAŞ",
+      "country": "Türkiye",
+      "jobs": [
+        {
+          "id": "tusas-001",
+          "title": "Genel Başvuru - Mühendis",
+          "organization": "TUSAŞ",
+          "category": "engineering",
+          "tags": [
+            "Mühendislik",
+            "Genel Başvuru"
+          ],
+          "location": {
+            "city": "Ankara",
+            "state": "",
+            "country": "Türkiye",
+            "facility": "TUSAŞ Yerleşkesi"
+          },
+          "employmentType": "Tam Zamanlı",
+          "contractType": "Kalıcı",
+          "publishDate": "2025-01-24",
+          "applicationDeadline": "2026-12-31",
+          "emails": {
+            "career": "",
+            "general": "",
+            "privacy": "kisiselveri@tai.com.tr",
+            "kep": "tusas.tebligat@tusas.hs03.kep.tr"
+          },
+          "requirements": {
+            "education": [],
+            "languages": [],
+            "technicalSkills": [
+              "Analiz",
+              "Tasarım",
+              "Test",
+              "Modelleme",
+              "Simülasyon",
+              "Yazılım ve donanım geliştirme",
+              "Raporlama"
+            ],
+            "competencies": [
+              "Süreç geliştirme",
+              "Disiplinli çalışma",
+              "Takım çalışmasına uyum"
+            ]
+          },
+          "benefits": [
+            "Sürekli eğitim ve gelişim imkânı",
+            "Yüksek lisans ve doktora desteği",
+            "Uluslararası projelerde deneyim kazanma",
+            "Alanında uzman mühendislerle çalışma fırsatı",
+            "Keşif ve öğrenme odaklı çalışma ortamı",
+            "Havacılık ve uzay sektöründe prestijli kariyer"
+          ],
+          "salary": {
+            "startingAmount": null,
+            "currency": "TRY",
+            "period": "",
+            "grade": "",
+            "displayText": "Maaş bilgisi belirtilmemiş"
+          },
+          "status": "Açık",
+          "sourceType": "manual"
+        },
+        {
+          "id": "tusas-002",
+          "title": "Genel Başvuru - Mühendis",
+          "organization": "TUSAŞ",
+          "category": "systems",
+          "tags": [
+            "Mühendislik",
+            "Yazılım",
+            "Gömülü Sistemler"
+          ],
+          "location": {
+            "city": "Ankara",
+            "state": "",
+            "country": "Türkiye",
+            "facility": "TUSAŞ Yerleşkesi"
+          },
+          "employmentType": "Tam Zamanlı",
+          "contractType": "Kalıcı",
+          "publishDate": "2026-03-24",
+          "applicationDeadline": "2026-03-29",
+          "emails": {
+            "career": "",
+            "general": "",
+            "privacy": "kisiselveri@tai.com.tr",
+            "kep": "tusas.tebligat@tusas.hs03.kep.tr"
+          },
+          "requirements": {
+            "education": [
+              "Elektrik-Elektronik Mühendisliği lisans derecesi",
+              "Bilgisayar Mühendisliği lisans derecesi",
+              "Elektronik-Haberleşme Mühendisliği lisans derecesi"
+            ],
+            "languages": [
+              "İyi derecede İngilizce",
+              "TOEFL IBT 84 ve üzeri",
+              "IELTS 6.5 ve üzeri",
+              "TÖMER 79 ve üzeri",
+              "ITEP 4 ve üzeri"
+            ],
+            "technicalSkills": [
+              "Yazılım geliştirme ve doğrulama süreçleri bilgisi",
+              "Analiz, tasarım, kodlama ve doğrulama bilgisi",
+              "IDE ve debugger kullanım tecrübesi",
+              "DOORS, Jira, SVN ve Git kullanım tecrübesi",
+              "Alt seviye yazılım geliştirme tecrübesi",
+              "BSP ve driver geliştirme bilgisi",
+              "Assembly programlama bilgisi",
+              "C programlama dili bilgisi",
+              "UART, GPIO, I2C, DMA ve PCIe arayüzleri bilgisi",
+              "Gerçek zamanlı işletim sistemleri üzerinde geliştirme",
+              "GHS Integrity, VxWorks, QNX bilgisi",
+              "C/C++ geliştirme",
+              "Test otomasyonu ve kod üretimi",
+              "Python, Groovy, DXL bilgisi",
+              "Simülasyon yazılım geliştirme",
+              "C#, Java bilgisi",
+              "SCADE, VectorCast, IBM Rational, Reqtify bilgisi"
+            ],
+            "competencies": []
+          },
+          "benefits": [
+            "Kurumsal akademi ile sürekli eğitim",
+            "Yüksek lisans ve doktora desteği",
+            "Uluslararası projelerde deneyim",
+            "Uzman mühendislerle çalışma",
+            "Keşif odaklı çalışma ortamı",
+            "Sektörde prestijli kariyer"
+          ],
+          "salary": {
+            "startingAmount": null,
+            "currency": "TRY",
+            "period": "",
+            "grade": "",
+            "displayText": "Maaş bilgisi belirtilmemiş"
+          },
+          "status": "Açık",
+          "sourceType": "manual"
+        },
+        {
+          "id": "tusas-003",
+          "title": "Pazar Geliştirme Uzmanı",
+          "organization": "TUSAŞ",
+          "category": "businessDevelopment",
+          "tags": [
+            "Pazar Geliştirme",
+            "Satış",
+            "İş Geliştirme"
+          ],
+          "location": {
+            "city": "Ankara",
+            "state": "",
+            "country": "Türkiye",
+            "facility": "TUSAŞ Yerleşkesi"
+          },
+          "employmentType": "Tam Zamanlı",
+          "contractType": "Kalıcı",
+          "publishDate": "2025-01-31",
+          "applicationDeadline": "2026-12-31",
+          "emails": {
+            "career": "",
+            "general": "",
+            "privacy": "kisiselveri@tai.com.tr",
+            "kep": "tusas.tebligat@tusas.hs03.kep.tr"
+          },
+          "requirements": {
+            "education": [
+              "Endüstri Mühendisliği veya ilgili bölümler",
+              "Uluslararası İlişkiler",
+              "İletişim",
+              "Pazarlama",
+              "İşletme",
+              "İktisat",
+              "Sosyoloji"
+            ],
+            "languages": [
+              "İngilizce",
+              "İspanyolca veya Fransızca (ileri seviye)"
+            ],
+            "technicalSkills": [],
+            "competencies": [
+              "Sunum becerileri",
+              "Uluslararası satış ve pazarlama deneyimi",
+              "Stratejik pazar analizi",
+              "Müşteri ilişkileri yönetimi",
+              "Teklif ve sözleşme süreç yönetimi",
+              "Trend takibi",
+              "Problem çözme",
+              "Planlama ve organizasyon",
+              "Zaman yönetimi"
+            ]
+          },
+          "benefits": [
+            "Kurumsal akademi ile sürekli eğitim",
+            "Yüksek lisans ve doktora desteği",
+            "Uluslararası projelerde deneyim",
+            "Uzman ekiplerle çalışma",
+            "Keşif odaklı çalışma ortamı",
+            "Prestijli kariyer fırsatı"
+          ],
+          "salary": {
+            "startingAmount": null,
+            "currency": "TRY",
+            "period": "",
+            "grade": "",
+            "displayText": "Maaş bilgisi belirtilmemiş"
+          },
+          "status": "Açık",
+          "sourceType": "manual"
+        }
+      ]
+    },
+    {
+      "organization": "NASA",
+      "country": "Amerika Birleşik Devletleri",
+      "jobs": [
+        {
+          "id": "nasa-001",
+          "title": "Araç Entegrasyon Ofisi Müdürü",
+          "organization": "NASA",
+          "category": "projectManagement",
+          "tags": [
+            "Yönetim",
+            "Araç Entegrasyonu"
+          ],
+          "location": {
+            "city": "Houston",
+            "state": "Teksas",
+            "country": "Amerika Birleşik Devletleri",
+            "facility": "Lyndon B. Johnson Uzay Merkezi"
+          },
+          "employmentType": "Tam Zamanlı",
+          "contractType": "Kalıcı",
+          "publishDate": "2026-03-25",
+          "applicationDeadline": "2026-03-31",
+          "emails": {
+            "career": "nssc-contactcenter@nasa.gov",
+            "general": "",
+            "privacy": "",
+            "kep": ""
+          },
+          "requirements": {
+            "education": [],
+            "languages": [],
+            "technicalSkills": [],
+            "competencies": []
+          },
+          "benefits": [],
+          "salary": {
+            "startingAmount": 197201,
+            "currency": "USD",
+            "period": "Yıllık",
+            "grade": "ES 00",
+            "displayText": "Yıllık $197,201 başlangıç maaşı (ES 00)"
+          },
+          "status": "Açık",
+          "sourceType": "manual"
+        },
+        {
+          "id": "nasa-002",
+          "title": "Havacılık ve Uzay Mühendisi (Çevresel Kontrol Sistemleri)",
+          "organization": "NASA",
+          "category": "engineering",
+          "tags": [
+            "Havacılık",
+            "Çevresel Kontrol",
+            "Mühendislik"
+          ],
+          "location": {
+            "city": "Houston",
+            "state": "Teksas",
+            "country": "Amerika Birleşik Devletleri",
+            "facility": "Lyndon B. Johnson Uzay Merkezi"
+          },
+          "employmentType": "Tam Zamanlı",
+          "contractType": "Kalıcı",
+          "publishDate": "2026-03-25",
+          "applicationDeadline": "2026-03-31",
+          "emails": {
+            "career": "nssc-contactcenter@nasa.gov",
+            "general": "",
+            "privacy": "",
+            "kep": ""
+          },
+          "requirements": {
+            "education": [],
+            "languages": [],
+            "technicalSkills": [],
+            "competencies": []
+          },
+          "benefits": [],
+          "salary": {
+            "startingAmount": 145052,
+            "currency": "USD",
+            "period": "Yıllık",
+            "grade": "GS 14",
+            "displayText": "Yıllık $145,052 başlangıç maaşı (GS 14)"
+          },
+          "status": "Açık",
+          "sourceType": "manual"
+        },
+        {
+          "id": "nasa-003",
+          "title": "Kıdemli Çevre Koruma Uzmanı (Yönetici)",
+          "organization": "NASA",
+          "category": "environmentSafety",
+          "tags": [
+            "Çevre",
+            "Yönetim",
+            "Uzman"
+          ],
+          "location": {
+            "city": "",
+            "state": "",
+            "country": "Amerika Birleşik Devletleri",
+            "facility": "Ames Araştırma Merkezi",
+            "additional": "Birden fazla lokasyon"
+          },
+          "employmentType": "Tam Zamanlı",
+          "contractType": "Kalıcı",
+          "publishDate": "2026-03-24",
+          "applicationDeadline": "2026-03-30",
+          "emails": {
+            "career": "nssc-contactcenter@nasa.gov",
+            "general": "",
+            "privacy": "",
+            "kep": ""
+          },
+          "requirements": {
+            "education": [],
+            "languages": [],
+            "technicalSkills": [],
+            "competencies": []
+          },
+          "benefits": [],
+          "salary": {
+            "startingAmount": 147945,
+            "currency": "USD",
+            "period": "Yıllık",
+            "grade": "GS 15",
+            "displayText": "Yıllık $147,945 başlangıç maaşı (GS 15)"
+          },
+          "status": "Açık",
+          "sourceType": "manual"
+        }
+      ]
+    },
+    {
+      "organization": "ESA",
+      "country": "Uluslararası",
+      "jobs": [
+        {
+          "id": "esa-001",
+          "title": "Kıdemli Politika Danışmanı (2 Pozisyon)",
+          "organization": "ESA",
+          "category": "policyRelations",
+          "tags": [
+            "Politika",
+            "Danışmanlık",
+            "Uluslararası İlişkiler"
+          ],
+          "location": {
+            "city": "Brüksel",
+            "state": "Brüksel Bölgesi",
+            "country": "Belçika",
+            "facility": "ESA Brüksel Ofisi"
+          },
+          "employmentType": "Tam Zamanlı",
+          "contractType": "4 Yıl, Süresi Uzatılabilir",
+          "publishDate": "2026-03-04",
+          "applicationDeadline": "2026-03-25",
+          "emails": {
+            "career": "contact.human.resources@esa.int",
+            "general": "",
+            "privacy": "",
+            "kep": ""
+          },
+          "requirements": {
+            "education": [],
+            "languages": [],
+            "technicalSkills": [],
+            "competencies": []
+          },
+          "benefits": [],
+          "salary": {
+            "startingAmount": null,
+            "currency": null,
+            "period": null,
+            "grade": "A2 - A4",
+            "displayText": "Maaş bilgisi belirtilmemiş"
+          },
+          "status": "Kapalı",
+          "sourceType": "manual"
+        },
+        {
+          "id": "esa-002",
+          "title": "İrtibat Görevlisi",
+          "organization": "ESA",
+          "category": "policyRelations",
+          "tags": [
+            "İrtibat",
+            "Temsil",
+            "Uluslararası"
+          ],
+          "location": {
+            "city": "Houston",
+            "state": "Teksas",
+            "country": "Amerika Birleşik Devletleri",
+            "facility": "ESA Houston Ofisi"
+          },
+          "employmentType": "Tam Zamanlı",
+          "contractType": "4 Yıl, Süresi Uzatılabilir",
+          "publishDate": "2026-02-27",
+          "applicationDeadline": "2026-03-20",
+          "emails": {
+            "career": "contact.human.resources@esa.int",
+            "general": "",
+            "privacy": "",
+            "kep": ""
+          },
+          "requirements": {
+            "education": [],
+            "languages": [],
+            "technicalSkills": [],
+            "competencies": []
+          },
+          "benefits": [],
+          "salary": {
+            "startingAmount": null,
+            "currency": null,
+            "period": null,
+            "grade": "",
+            "displayText": "Maaş bilgisi belirtilmemiş"
+          },
+          "status": "Kapalı",
+          "sourceType": "manual"
+        },
+        {
+          "id": "esa-003",
+          "title": "Yer Segmenti Siber Güvenlik Mühendisi",
+          "organization": "ESA",
+          "category": "cybersecurity",
+          "tags": [
+            "Siber Güvenlik",
+            "Yer Segmenti",
+            "Mühendislik"
+          ],
+          "location": {
+            "city": "Darmstadt",
+            "state": "",
+            "country": "Almanya",
+            "facility": "ESOC"
+          },
+          "employmentType": "Tam Zamanlı",
+          "contractType": "4 Yıl, Süresi Uzatılabilir",
+          "publishDate": "2026-03-17",
+          "applicationDeadline": "2026-04-07",
+          "emails": {
+            "career": "contact.human.resources@esa.int",
+            "general": "",
+            "privacy": "",
+            "kep": ""
+          },
+          "requirements": {
+            "education": [],
+            "languages": [],
+            "technicalSkills": [],
+            "competencies": []
+          },
+          "benefits": [],
+          "salary": {
+            "startingAmount": null,
+            "currency": null,
+            "period": null,
+            "grade": "A2 - A4",
+            "displayText": "Maaş bilgisi belirtilmemiş"
+          },
+          "status": "Açık",
+          "sourceType": "manual"
+        },
+        {
+          "id": "esa-004",
+          "title": "Yer Gözlem Gelecek Görevler Uçtan Uca Sistem Mühendisi",
+          "organization": "ESA",
+          "category": "systems",
+          "tags": [
+            "Yer Gözlem",
+            "Sistem Mühendisliği"
+          ],
+          "location": {
+            "city": "Noordwijk",
+            "state": "",
+            "country": "Hollanda",
+            "facility": "ESTEC"
+          },
+          "employmentType": "Tam Zamanlı",
+          "contractType": "4 Yıl, Süresi Uzatılabilir",
+          "publishDate": "2026-03-27",
+          "applicationDeadline": "2026-04-17",
+          "emails": {
+            "career": "contact.human.resources@esa.int",
+            "general": "",
+            "privacy": "",
+            "kep": ""
+          },
+          "requirements": {
+            "education": [],
+            "languages": [],
+            "technicalSkills": [],
+            "competencies": []
+          },
+          "benefits": [],
+          "salary": {
+            "startingAmount": null,
+            "currency": null,
+            "period": null,
+            "grade": "A2 - A4",
+            "displayText": "Maaş bilgisi belirtilmemiş"
+          },
+          "status": "Açık",
+          "sourceType": "manual"
+        },
+        {
+          "id": "esa-005",
+          "title": "OpSTAR Sistem Mühendisi",
+          "organization": "ESA",
+          "category": "systems",
+          "tags": [
+            "OpSTAR",
+            "Sistem Mühendisliği"
+          ],
+          "location": {
+            "city": "Noordwijk",
+            "state": "",
+            "country": "Hollanda",
+            "facility": "ESTEC"
+          },
+          "employmentType": "Tam Zamanlı",
+          "contractType": "4 Yıl, Süresi Uzatılabilir",
+          "publishDate": "2026-03-27",
+          "applicationDeadline": "2026-04-17",
+          "emails": {
+            "career": "contact.human.resources@esa.int",
+            "general": "",
+            "privacy": "",
+            "kep": ""
+          },
+          "requirements": {
+            "education": [],
+            "languages": [],
+            "technicalSkills": [],
+            "competencies": []
+          },
+          "benefits": [],
+          "salary": {
+            "startingAmount": null,
+            "currency": null,
+            "period": null,
+            "grade": "A2 - A4",
+            "displayText": "Maaş bilgisi belirtilmemiş"
+          },
+          "status": "Açık",
+          "sourceType": "manual"
+        }
+      ]
+    },
+    {
+      "organization": "ROKETSAN",
+      "country": "Türkiye",
+      "jobs": [
+        {
+          "id": "roketsan-001",
+          "title": "Hava Savunma Sistemleri Sistem Mühendisi",
+          "organization": "ROKETSAN",
+          "category": "systems",
+          "tags": [
+            "Hava Savunma",
+            "Sistem Mühendisliği"
+          ],
+          "location": {
+            "city": "Ankara",
+            "state": "",
+            "country": "Türkiye",
+            "facility": "Roketsan Yerleşkesi"
+          },
+          "employmentType": "Tam Zamanlı",
+          "contractType": "Belirtilmemiş",
+          "publishDate": "2026-03-11",
+          "applicationDeadline": "",
+          "emails": {
+            "career": "",
+            "general": "info@roketsan.com.tr",
+            "privacy": "bgyb@roketsan.com.tr",
+            "kep": "roketsan@hs01.kep.tr"
+          },
+          "requirements": {
+            "education": [
+              "Elektrik-Elektronik Mühendisliği",
+              "Makine Mühendisliği",
+              "Havacılık ve Uzay Mühendisliği",
+              "Mekatronik Mühendisliği"
+            ],
+            "languages": [
+              "İyi derecede İngilizce"
+            ],
+            "technicalSkills": [
+              "Sistem mühendisliği süreçleri",
+              "Gereksinim yönetimi (DOORS)",
+              "SysML veya benzeri modelleme araçları",
+              "Ürün yaşam döngüsü yönetimi"
+            ],
+            "competencies": [
+              "Analitik düşünme",
+              "Takım çalışması",
+              "Problem çözme",
+              "İletişim becerisi"
+            ]
+          },
+          "benefits": [
+            "Savunma sanayinde kritik projelerde görev alma",
+            "Kariyer gelişim fırsatları",
+            "Uzman ekiplerle çalışma"
+          ],
+          "salary": {
+            "startingAmount": null,
+            "currency": "TRY",
+            "period": "Aylık",
+            "grade": "",
+            "displayText": "Maaş bilgisi belirtilmemiş"
+          },
+          "status": "Açık",
+          "sourceType": "manual"
+        },
+        {
+          "id": "roketsan-002",
+          "title": "Sistem Test Ekipmanları Tasarım Mühendisi",
+          "organization": "ROKETSAN",
+          "category": "testIntegration",
+          "tags": [
+            "Test",
+            "Donanım",
+            "Tasarım"
+          ],
+          "location": {
+            "city": "Ankara",
+            "state": "",
+            "country": "Türkiye",
+            "facility": "Roketsan Yerleşkesi"
+          },
+          "employmentType": "Tam Zamanlı",
+          "contractType": "Belirtilmemiş",
+          "publishDate": "2026-03-12",
+          "applicationDeadline": "",
+          "emails": {
+            "career": "",
+            "general": "info@roketsan.com.tr",
+            "privacy": "bgyb@roketsan.com.tr",
+            "kep": "roketsan@hs01.kep.tr"
+          },
+          "requirements": {
+            "education": [
+              "Elektrik-Elektronik Mühendisliği",
+              "Mekatronik Mühendisliği"
+            ],
+            "languages": [
+              "İyi derecede İngilizce"
+            ],
+            "technicalSkills": [
+              "Analog ve dijital devre tasarımı",
+              "Osiloskop ve test ekipmanları kullanımı",
+              "CAN, SPI, I2C haberleşme protokolleri",
+              "LabView veya Python"
+            ],
+            "competencies": [
+              "Detaylara dikkat",
+              "Analitik düşünme",
+              "Takım çalışması"
+            ]
+          },
+          "benefits": [
+            "Yüksek teknoloji projeleri",
+            "Test ve entegrasyon tecrübesi",
+            "Gelişim odaklı çalışma ortamı"
+          ],
+          "salary": {
+            "startingAmount": null,
+            "currency": "TRY",
+            "period": "Aylık",
+            "grade": "",
+            "displayText": "Maaş bilgisi belirtilmemiş"
+          },
+          "status": "Açık",
+          "sourceType": "manual"
+        },
+        {
+          "id": "roketsan-003",
+          "title": "Fırlatma Operasyonları Sistem Mühendisi",
+          "organization": "ROKETSAN",
+          "category": "systems",
+          "tags": [
+            "Fırlatma",
+            "Operasyon",
+            "Sistem"
+          ],
+          "location": {
+            "city": "Ankara",
+            "state": "",
+            "country": "Türkiye",
+            "facility": "Roketsan Yerleşkesi"
+          },
+          "employmentType": "Tam Zamanlı",
+          "contractType": "Belirtilmemiş",
+          "publishDate": "2026-03-12",
+          "applicationDeadline": "",
+          "emails": {
+            "career": "",
+            "general": "info@roketsan.com.tr",
+            "privacy": "bgyb@roketsan.com.tr",
+            "kep": "roketsan@hs01.kep.tr"
+          },
+          "requirements": {
+            "education": [
+              "Elektrik-Elektronik Mühendisliği",
+              "Elektronik ve Haberleşme Mühendisliği"
+            ],
+            "languages": [
+              "İyi derecede İngilizce"
+            ],
+            "technicalSkills": [
+              "Ağ sistemleri (TCP/IP)",
+              "Telemetri ve haberleşme sistemleri",
+              "Komuta kontrol sistemleri",
+              "Sistem entegrasyonu"
+            ],
+            "competencies": [
+              "Problem çözme",
+              "Sistematik düşünme",
+              "Takım çalışması"
+            ]
+          },
+          "benefits": [
+            "Saha ve operasyon tecrübesi",
+            "Kritik görevlerde yer alma",
+            "Uzman ekiplerle çalışma"
+          ],
+          "salary": {
+            "startingAmount": null,
+            "currency": "TRY",
+            "period": "Aylık",
+            "grade": "",
+            "displayText": "Maaş bilgisi belirtilmemiş"
+          },
+          "status": "Açık",
+          "sourceType": "manual"
+        },
+        {
+          "id": "roketsan-004",
+          "title": "Balistik Füze Sistemleri Proje Mühendisi",
+          "organization": "ROKETSAN",
+          "category": "projectManagement",
+          "tags": [
+            "Balistik Füze",
+            "Proje Yönetimi"
+          ],
+          "location": {
+            "city": "Ankara",
+            "state": "",
+            "country": "Türkiye",
+            "facility": "Roketsan Yerleşkesi"
+          },
+          "employmentType": "Tam Zamanlı",
+          "contractType": "Belirtilmemiş",
+          "publishDate": "2026-03-13",
+          "applicationDeadline": "",
+          "emails": {
+            "career": "",
+            "general": "info@roketsan.com.tr",
+            "privacy": "bgyb@roketsan.com.tr",
+            "kep": "roketsan@hs01.kep.tr"
+          },
+          "requirements": {
+            "education": [
+              "Makine Mühendisliği",
+              "Havacılık ve Uzay Mühendisliği",
+              "Elektrik-Elektronik Mühendisliği"
+            ],
+            "languages": [
+              "İyi derecede İngilizce"
+            ],
+            "technicalSkills": [
+              "Proje yönetimi",
+              "Ürün geliştirme süreçleri",
+              "Tercihen PMP bilgisi"
+            ],
+            "competencies": [
+              "Organizasyon becerisi",
+              "Liderlik",
+              "İletişim becerisi"
+            ]
+          },
+          "benefits": [
+            "Büyük ölçekli projelerde yer alma",
+            "Kariyer gelişimi",
+            "Yüksek sorumluluk alanı"
+          ],
+          "salary": {
+            "startingAmount": null,
+            "currency": "TRY",
+            "period": "Aylık",
+            "grade": "",
+            "displayText": "Maaş bilgisi belirtilmemiş"
+          },
+          "status": "Açık",
+          "sourceType": "manual"
+        },
+        {
+          "id": "roketsan-005",
+          "title": "Hava Savunma Sistemleri Aviyonik Sistem Mühendisi",
+          "organization": "ROKETSAN",
+          "category": "avionics",
+          "tags": [
+            "Aviyonik",
+            "Hava Savunma"
+          ],
+          "location": {
+            "city": "Ankara",
+            "state": "",
+            "country": "Türkiye",
+            "facility": "Roketsan Yerleşkesi"
+          },
+          "employmentType": "Tam Zamanlı",
+          "contractType": "Belirtilmemiş",
+          "publishDate": "2026-02-11",
+          "applicationDeadline": "",
+          "emails": {
+            "career": "",
+            "general": "info@roketsan.com.tr",
+            "privacy": "bgyb@roketsan.com.tr",
+            "kep": "roketsan@hs01.kep.tr"
+          },
+          "requirements": {
+            "education": [
+              "Elektrik-Elektronik Mühendisliği",
+              "Elektronik ve Haberleşme Mühendisliği"
+            ],
+            "languages": [
+              "İyi derecede İngilizce"
+            ],
+            "technicalSkills": [
+              "Aviyonik sistemler",
+              "EMI/EMC testleri",
+              "MIL-STD-461 ve MIL-STD-810 bilgisi",
+              "Sistem doğrulama ve test süreçleri"
+            ],
+            "competencies": [
+              "Detay odaklı çalışma",
+              "Analitik düşünme",
+              "Takım çalışması"
+            ]
+          },
+          "benefits": [
+            "Savunma sanayi projeleri",
+            "Teknik uzmanlık geliştirme",
+            "Uzun vadeli kariyer"
+          ],
+          "salary": {
+            "startingAmount": null,
+            "currency": "TRY",
+            "period": "Aylık",
+            "grade": "",
+            "displayText": "Maaş bilgisi belirtilmemiş"
+          },
+          "status": "Açık",
+          "sourceType": "manual"
+        }
+      ]
+    },
+    {
+      "organization": "SPACEX",
+      "country": "Amerika Birleşik Devletleri",
+      "jobs": [
+        {
+          "id": "spacex-001",
+          "title": "Antenna Software Engineer (Starlink)",
+          "organization": "SPACEX",
+          "category": "software",
+          "tags": [
+            "Starlink",
+            "Yazılım",
+            "Anten"
+          ],
+          "location": {
+            "city": "Redmond",
+            "state": "Washington",
+            "country": "Amerika Birleşik Devletleri",
+            "facility": "Starlink Facility"
+          },
+          "employmentType": "Tam Zamanlı",
+          "contractType": "Kalıcı",
+          "publishDate": "2026-03-17",
+          "applicationDeadline": "",
+          "emails": {
+            "career": "",
+            "general": "",
+            "privacy": "",
+            "kep": ""
+          },
+          "requirements": {
+            "education": [
+              "Bilgisayar Mühendisliği",
+              "Elektrik-Elektronik Mühendisliği"
+            ],
+            "languages": [
+              "İyi derecede İngilizce"
+            ],
+            "technicalSkills": [
+              "C/C++ veya Python",
+              "Ağ sistemleri",
+              "Embedded sistemler",
+              "Linux"
+            ],
+            "competencies": [
+              "Problem çözme",
+              "Analitik düşünme",
+              "Takım çalışması"
+            ]
+          },
+          "benefits": [
+            "Starlink projelerinde çalışma",
+            "Uydu haberleşme sistemleri deneyimi",
+            "Global teknoloji ortamı"
+          ],
+          "salary": {
+            "startingAmount": 120000,
+            "currency": "USD",
+            "period": "Yıllık",
+            "grade": "",
+            "displayText": "Yıllık yaklaşık $120,000+"
+          },
+          "status": "Açık",
+          "sourceType": "manual"
+        },
+        {
+          "id": "spacex-002",
+          "title": "Development Test Engineer",
+          "organization": "SPACEX",
+          "category": "testIntegration",
+          "tags": [
+            "Test",
+            "Geliştirme"
+          ],
+          "location": {
+            "city": "Hawthorne",
+            "state": "California",
+            "country": "Amerika Birleşik Devletleri",
+            "facility": "SpaceX Headquarters"
+          },
+          "employmentType": "Tam Zamanlı",
+          "contractType": "Kalıcı",
+          "publishDate": "2026-03-16",
+          "applicationDeadline": "",
+          "emails": {
+            "career": "",
+            "general": "",
+            "privacy": "",
+            "kep": ""
+          },
+          "requirements": {
+            "education": [
+              "Makine Mühendisliği",
+              "Havacılık ve Uzay Mühendisliği"
+            ],
+            "languages": [
+              "İngilizce"
+            ],
+            "technicalSkills": [
+              "Test sistemleri",
+              "Veri analizi",
+              "Sensör sistemleri",
+              "Deneysel mühendislik"
+            ],
+            "competencies": [
+              "Detay odaklı çalışma",
+              "Problem çözme",
+              "Takım çalışması"
+            ]
+          },
+          "benefits": [
+            "Roket test süreçlerinde çalışma",
+            "Gerçek saha tecrübesi",
+            "Hızlı kariyer gelişimi"
+          ],
+          "salary": {
+            "startingAmount": 110000,
+            "currency": "USD",
+            "period": "Yıllık",
+            "grade": "",
+            "displayText": "Yıllık yaklaşık $110,000+"
+          },
+          "status": "Açık",
+          "sourceType": "manual"
+        },
+        {
+          "id": "spacex-003",
+          "title": "Assembly Technician (Starlink)",
+          "organization": "SPACEX",
+          "category": "manufacturing",
+          "tags": [
+            "Starlink",
+            "Montaj",
+            "Üretim"
+          ],
+          "location": {
+            "city": "Redmond",
+            "state": "Washington",
+            "country": "Amerika Birleşik Devletleri",
+            "facility": "Starlink Production"
+          },
+          "employmentType": "Tam Zamanlı",
+          "contractType": "Kalıcı",
+          "publishDate": "2026-03-15",
+          "applicationDeadline": "",
+          "emails": {
+            "career": "",
+            "general": "",
+            "privacy": "",
+            "kep": ""
+          },
+          "requirements": {
+            "education": [
+              "Teknik lise veya önlisans",
+              "Mühendislik alanında eğitim tercih edilir"
+            ],
+            "languages": [
+              "İngilizce"
+            ],
+            "technicalSkills": [
+              "Üretim süreçleri",
+              "El aletleri kullanımı",
+              "Montaj ve entegrasyon",
+              "Kalite kontrol"
+            ],
+            "competencies": [
+              "Dikkat",
+              "Takım çalışması",
+              "Disiplin"
+            ]
+          },
+          "benefits": [
+            "Starlink üretim hattında çalışma",
+            "Teknik beceri geliştirme",
+            "Endüstriyel deneyim"
+          ],
+          "salary": {
+            "startingAmount": 25,
+            "currency": "USD",
+            "period": "Saatlik",
+            "grade": "",
+            "displayText": "Saatlik yaklaşık $22–$30"
+          },
+          "status": "Açık",
+          "sourceType": "manual"
+        },
+        {
+          "id": "spacex-004",
+          "title": "Integration & Test Engineer (Starlink Propulsion)",
+          "organization": "SPACEX",
+          "category": "testIntegration",
+          "tags": [
+            "Starlink",
+            "İtki",
+            "Entegrasyon",
+            "Test"
+          ],
+          "location": {
+            "city": "Redmond",
+            "state": "Washington",
+            "country": "Amerika Birleşik Devletleri",
+            "facility": "Starlink Propulsion Facility"
+          },
+          "employmentType": "Tam Zamanlı",
+          "contractType": "Kalıcı",
+          "publishDate": "2026-03-16",
+          "applicationDeadline": "",
+          "emails": {
+            "career": "",
+            "general": "",
+            "privacy": "",
+            "kep": ""
+          },
+          "requirements": {
+            "education": [
+              "Havacılık ve Uzay Mühendisliği",
+              "Makine Mühendisliği"
+            ],
+            "languages": [
+              "İngilizce"
+            ],
+            "technicalSkills": [
+              "Test ve entegrasyon süreçleri",
+              "Roket sistemleri",
+              "Veri analizi",
+              "Sistem mühendisliği"
+            ],
+            "competencies": [
+              "Analitik düşünme",
+              "Problem çözme",
+              "Takım çalışması"
+            ]
+          },
+          "benefits": [
+            "İtki sistemlerinde çalışma",
+            "Uzay teknolojileri deneyimi",
+            "Kariyer gelişimi"
+          ],
+          "salary": {
+            "startingAmount": 115000,
+            "currency": "USD",
+            "period": "Yıllık",
+            "grade": "",
+            "displayText": "Yıllık yaklaşık $115,000+"
+          },
+          "status": "Açık",
+          "sourceType": "manual"
+        },
+        {
+          "id": "spacex-005",
+          "title": "Additive Manufacturing Engineer (Raptor)",
+          "organization": "SPACEX",
+          "category": "manufacturing",
+          "tags": [
+            "Raptor",
+            "Üretim",
+            "Katmanlı İmalat"
+          ],
+          "location": {
+            "city": "Hawthorne",
+            "state": "California",
+            "country": "Amerika Birleşik Devletleri",
+            "facility": "Rocket Development Facility"
+          },
+          "employmentType": "Tam Zamanlı",
+          "contractType": "Kalıcı",
+          "publishDate": "2026-03-17",
+          "applicationDeadline": "",
+          "emails": {
+            "career": "",
+            "general": "",
+            "privacy": "",
+            "kep": ""
+          },
+          "requirements": {
+            "education": [
+              "Makine Mühendisliği",
+              "Malzeme Mühendisliği"
+            ],
+            "languages": [
+              "İngilizce"
+            ],
+            "technicalSkills": [
+              "3D üretim teknolojileri",
+              "Metal işleme",
+              "CAD/CAM",
+              "Üretim mühendisliği"
+            ],
+            "competencies": [
+              "Yenilikçilik",
+              "Problem çözme",
+              "Takım çalışması"
+            ]
+          },
+          "benefits": [
+            "Raptor motor geliştirme süreçleri",
+            "İleri üretim teknolojileri",
+            "Yüksek teknoloji ortamı"
+          ],
+          "salary": {
+            "startingAmount": 125000,
+            "currency": "USD",
+            "period": "Yıllık",
+            "grade": "",
+            "displayText": "Yıllık yaklaşık $125,000+"
+          },
+          "status": "Açık",
+          "sourceType": "manual"
+        }
+      ]
+    }
+  ]
+}

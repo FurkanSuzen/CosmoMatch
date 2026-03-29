@@ -1,11 +1,17 @@
 import { AnimatePresence, motion } from "framer-motion";
 import { useEffect, useMemo, useState } from "react";
 import { CreateListingModal } from "../../components/marketplace/CreateListingModal";
+import { AccountRoleBadge } from "../../components/portal/AccountRoleBadge";
 import { useAuth } from "../../contexts/AuthContext";
 import {
+  deleteProductListing,
   isMarketplaceDbConfigured,
   listProductListings,
 } from "../../lib/marketplaceDb";
+import {
+  contactEmailForListing,
+  openListingContactMail,
+} from "../../lib/marketplaceMail";
 import {
   DEMO_PRODUCT_LISTINGS,
   MARKETPLACE_CATEGORY_IDS,
@@ -51,13 +57,17 @@ function ProductCard({
   item,
   onSelect,
   onEdit,
+  onDelete,
   showEdit,
+  deleteBusy,
   index,
 }: {
   item: ProductListing;
   onSelect: () => void;
   onEdit: () => void;
+  onDelete: () => void;
   showEdit: boolean;
+  deleteBusy: boolean;
   index: number;
 }) {
   const catLabel = MARKETPLACE_CATEGORY_LABELS[item.category];
@@ -70,16 +80,30 @@ function ProductCard({
       className="group relative flex flex-col overflow-hidden rounded-2xl border border-white/[0.08] bg-gradient-to-b from-white/[0.06] to-white/[0.02] shadow-[inset_0_1px_0_0_rgba(255,255,255,0.06)] transition hover:border-indigo-400/25 hover:shadow-[0_0_40px_-12px_rgba(99,102,241,0.35)]"
     >
       {showEdit ? (
-        <button
-          type="button"
-          onClick={(e) => {
-            e.stopPropagation();
-            onEdit();
-          }}
-          className="absolute right-2 top-2 z-10 rounded-lg border border-white/15 bg-black/55 px-2.5 py-1 text-[11px] font-semibold text-white backdrop-blur-md transition hover:bg-black/70"
-        >
-          Düzenle
-        </button>
+        <div className="absolute right-2 top-2 z-10 flex gap-1.5">
+          <button
+            type="button"
+            disabled={deleteBusy}
+            onClick={(e) => {
+              e.stopPropagation();
+              onEdit();
+            }}
+            className="rounded-lg border border-white/15 bg-black/55 px-2.5 py-1 text-[11px] font-semibold text-white backdrop-blur-md transition hover:bg-black/70 disabled:opacity-50"
+          >
+            Düzenle
+          </button>
+          <button
+            type="button"
+            disabled={deleteBusy}
+            onClick={(e) => {
+              e.stopPropagation();
+              onDelete();
+            }}
+            className="rounded-lg border border-rose-500/35 bg-rose-950/70 px-2.5 py-1 text-[11px] font-semibold text-rose-100 backdrop-blur-md transition hover:bg-rose-950/90 disabled:opacity-50"
+          >
+            Sil
+          </button>
+        </div>
       ) : null}
       <button
         type="button"
@@ -125,6 +149,17 @@ function ProductCard({
           </div>
         </div>
       </button>
+      {!showEdit && contactEmailForListing(item) ? (
+        <div className="border-t border-white/[0.06] px-4 pb-4 pt-3">
+          <button
+            type="button"
+            onClick={() => openListingContactMail(item)}
+            className="w-full rounded-xl bg-gradient-to-r from-indigo-600 to-violet-600 px-4 py-2.5 text-sm font-semibold text-white shadow-lg shadow-indigo-500/20 transition hover:from-indigo-500 hover:to-violet-500"
+          >
+            İletişime geç
+          </button>
+        </div>
+      ) : null}
     </motion.article>
   );
 }
@@ -133,14 +168,20 @@ function DetailModal({
   item,
   onClose,
   onEdit,
+  onDelete,
   showEdit,
+  deleteBusy,
 }: {
   item: ProductListing;
   onClose: () => void;
   onEdit: () => void;
+  onDelete: () => void;
   showEdit: boolean;
+  deleteBusy: boolean;
 }) {
   const catLabel = MARKETPLACE_CATEGORY_LABELS[item.category];
+  const sellerEmail = contactEmailForListing(item);
+
   return (
     <motion.div
       className="fixed inset-0 z-50 flex items-end justify-center p-4 sm:items-center"
@@ -207,18 +248,51 @@ function DetailModal({
           </div>
           <div className="space-y-3 border-t border-white/[0.06] pt-4">
             {showEdit ? (
-              <button
-                type="button"
-                onClick={onEdit}
-                className="rounded-xl border border-indigo-400/35 bg-indigo-500/15 px-4 py-2 text-sm font-medium text-indigo-100 transition hover:bg-indigo-500/25"
-              >
-                İlanı düzenle
-              </button>
-            ) : null}
-            <p className="text-xs text-slate-500">
-              İletişim ve satın alma akışları yakında platform üzerinden
-              tamamlanacaktır. Şimdilik kurum adıyla satıcıyı tanıyabilirsiniz.
-            </p>
+              <div className="flex flex-wrap gap-2">
+                <button
+                  type="button"
+                  disabled={deleteBusy}
+                  onClick={onEdit}
+                  className="rounded-xl border border-indigo-400/35 bg-indigo-500/15 px-4 py-2 text-sm font-medium text-indigo-100 transition hover:bg-indigo-500/25 disabled:opacity-50"
+                >
+                  İlanı düzenle
+                </button>
+                <button
+                  type="button"
+                  disabled={deleteBusy}
+                  onClick={onDelete}
+                  className="rounded-xl border border-rose-500/40 bg-rose-500/10 px-4 py-2 text-sm font-medium text-rose-200/95 transition hover:bg-rose-500/20 disabled:opacity-50"
+                >
+                  İlanı sil
+                </button>
+              </div>
+            ) : (
+              <div className="rounded-xl border border-indigo-500/20 bg-indigo-500/[0.07] px-4 py-4">
+                <p className="text-sm text-slate-300">
+                  Satıcıya CosmoMatch pazar ilanı üzerinden ilginizi iletmek için
+                  e-posta uygulamanız açılır; konu ve metin otomatik doldurulur.
+                </p>
+                <div className="mt-4 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+                  <button
+                    type="button"
+                    disabled={!sellerEmail}
+                    onClick={() => openListingContactMail(item)}
+                    className="inline-flex items-center justify-center rounded-xl bg-gradient-to-r from-indigo-600 to-violet-600 px-5 py-2.5 text-sm font-semibold text-white shadow-lg shadow-indigo-500/20 transition hover:from-indigo-500 hover:to-violet-500 disabled:cursor-not-allowed disabled:opacity-45 disabled:shadow-none"
+                  >
+                    İletişime geç
+                  </button>
+                  {sellerEmail ? (
+                    <span className="text-xs text-slate-500 break-all sm:text-right">
+                      {sellerEmail}
+                    </span>
+                  ) : (
+                    <span className="text-xs text-slate-500">
+                      Bu ilanda iletişim e-postası yok; satıcı formu güncellemeli.
+                    </span>
+                  )}
+                </div>
+              </div>
+            )}
           </div>
         </div>
       </motion.div>
@@ -238,6 +312,7 @@ export function MarketplacePage() {
   const [editingListing, setEditingListing] = useState<ProductListing | null>(null);
   const [selected, setSelected] = useState<ProductListing | null>(null);
   const [refreshKey, setRefreshKey] = useState(0);
+  const [deletingId, setDeletingId] = useState<string | null>(null);
 
   useEffect(() => {
     const t = window.setTimeout(() => setDebouncedSearch(search), 280);
@@ -288,6 +363,26 @@ export function MarketplacePage() {
     );
   }
 
+  async function handleDeleteListing(item: ProductListing) {
+    if (!user?.id || !dbReady) return;
+    if (
+      !window.confirm(
+        `"${item.title}" ilanını kalıcı olarak silmek istediğinize emin misiniz?`,
+      )
+    ) {
+      return;
+    }
+    setDeletingId(item.id);
+    const res = await deleteProductListing(user.id, item.id);
+    setDeletingId(null);
+    if (!res.ok) {
+      window.alert(res.error);
+      return;
+    }
+    setSelected((s) => (s?.id === item.id ? null : s));
+    setRefreshKey((k) => k + 1);
+  }
+
   return (
     <div className="flex flex-col gap-10 pb-8">
       <motion.section
@@ -318,8 +413,9 @@ export function MarketplacePage() {
             >
               İlan ver
             </button>
-            <span className="text-sm text-slate-500">
-              Oturum: {user?.name ?? "—"}
+            <span className="inline-flex flex-wrap items-center gap-2 text-sm text-slate-500">
+              <span>Oturum: {user?.name ?? "—"}</span>
+              {user?.id ? <AccountRoleBadge userId={user.id} /> : null}
             </span>
           </div>
         </div>
@@ -444,6 +540,8 @@ export function MarketplacePage() {
               onSelect={() => setSelected(item)}
               showEdit={isOwner(item)}
               onEdit={() => openEditModal(item)}
+              onDelete={() => handleDeleteListing(item)}
+              deleteBusy={deletingId === item.id}
             />
           ))}
         </div>
@@ -457,6 +555,8 @@ export function MarketplacePage() {
             onClose={() => setSelected(null)}
             showEdit={isOwner(selected)}
             onEdit={() => openEditModal(selected)}
+            onDelete={() => handleDeleteListing(selected)}
+            deleteBusy={deletingId === selected.id}
           />
         ) : null}
       </AnimatePresence>
@@ -469,6 +569,7 @@ export function MarketplacePage() {
         }}
         sellerUserId={user?.id ?? ""}
         defaultCompany={user?.company?.trim() ?? ""}
+        defaultContactEmail={user?.email?.trim() ?? ""}
         initialListing={editingListing}
         onSuccess={() => setRefreshKey((k) => k + 1)}
       />

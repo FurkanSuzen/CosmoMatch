@@ -4,11 +4,11 @@ import { Link } from "react-router-dom";
 import logo from "./icon.svg";
 
 const links = [
-  { label: "Platform", to: "/#features" },
-  { label: "Nasıl Çalışır?", to: "/#how-it-works" },
-  { label: "Önizleme", to: "/#platform" },
-  { label: "Partnerler", to: "/#partners" },
-];
+  { label: "Platform", hash: "features" },
+  { label: "Nasıl Çalışır?", hash: "how-it-works" },
+  { label: "Önizleme", hash: "platform" },
+  { label: "Partnerler", hash: "partners" },
+] as const;
 
 const SCROLL_TOP_SHOW = 56;
 const SCROLL_DELTA = 8;
@@ -79,8 +79,8 @@ export function Navbar() {
         <nav className="hidden items-center gap-0.5 md:flex" aria-label="Primary">
           {links.map((l) => (
             <Link
-              key={l.to}
-              to={l.to}
+              key={l.hash}
+              to={{ pathname: "/", hash: l.hash }}
               className="rounded-xl px-4 py-2.5 text-[15px] font-medium text-slate-400 transition hover:bg-white/[0.04] hover:text-slate-100"
             >
               {l.label}
@@ -144,8 +144,8 @@ export function Navbar() {
           <nav className="flex flex-col gap-1">
             {links.map((l) => (
               <Link
-                key={l.to}
-                to={l.to}
+                key={l.hash}
+                to={{ pathname: "/", hash: l.hash }}
                 className="rounded-lg px-2 py-3.5 text-base font-medium text-slate-300"
                 onClick={() => setOpen(false)}
               >

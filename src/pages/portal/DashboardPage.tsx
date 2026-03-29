@@ -1,8 +1,14 @@
 import { motion } from "framer-motion";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { Link } from "react-router-dom";
+import { AccountRoleBadge } from "../../components/portal/AccountRoleBadge";
 import { PortalGlobe } from "../../components/portal/PortalGlobe";
 import { useAuth } from "../../contexts/AuthContext";
+import {
+  getStoredAccountPlan,
+  planAllowsAiMatch,
+  subscribeAccountPlan,
+} from "../../lib/accountPlan";
 import {
   getStoredTopMatches,
   TOP_MATCHES_UPDATED_EVENT,
@@ -26,8 +32,22 @@ function rankStyle(rank: number): string {
 
 export function DashboardPage() {
   const { user } = useAuth();
+  const [accountPlan, setAccountPlan] = useState(() =>
+    getStoredAccountPlan(user?.id),
+  );
   const [topPayload, setTopPayload] = useState<StoredTopMatchesPayload | null>(() =>
     typeof window !== "undefined" ? getStoredTopMatches() : null,
+  );
+
+  const aiPlanOk = planAllowsAiMatch(accountPlan);
+
+  useEffect(() => {
+    setAccountPlan(getStoredAccountPlan(user?.id));
+  }, [user?.id]);
+
+  useEffect(
+    () => subscribeAccountPlan(() => setAccountPlan(getStoredAccountPlan(user?.id))),
+    [user?.id],
   );
 
   const skillsKey = useMemo(
@@ -71,8 +91,11 @@ export function DashboardPage() {
           <p className="text-[11px] font-semibold uppercase tracking-[0.28em] text-slate-500">
             Canlı çalışma alanı
           </p>
-          <h1 className="mt-2 text-2xl font-semibold tracking-[-0.03em] text-white sm:text-3xl">
-            {firstName + " " + lastName + " · " + company}
+          <h1 className="mt-2 flex flex-wrap items-center gap-2 text-2xl font-semibold tracking-[-0.03em] text-white sm:text-3xl">
+            <span className="min-w-0">
+              {firstName + " " + lastName + " · " + company}
+            </span>
+            {user?.id ? <AccountRoleBadge userId={user.id} /> : null}
           </h1>
           <p className="mt-2 text-sm text-slate-400">
             Hoş geldiniz, {firstName}. Marketplace, eşleşmeler ve network özeti bu
@@ -83,8 +106,14 @@ export function DashboardPage() {
           <span className="rounded-full border border-white/[0.1] bg-white/[0.04] px-3 py-1.5 text-xs font-medium text-slate-300">
             {nationality}
           </span>
-          <span className="rounded-full border border-green-300/25 bg-green-300/10 px-3 py-1.5 text-xs font-medium text-violet-200/95">
-            AI Entegrasyonu Aktif
+          <span
+            className={`rounded-full border px-3 py-1.5 text-xs font-medium ${
+              aiPlanOk
+                ? "border-green-300/25 bg-green-300/10 text-violet-200/95"
+                : "border-white/[0.1] bg-white/[0.04] text-slate-400"
+            }`}
+          >
+            {aiPlanOk ? "AI eşleşme (Premium)" : "AI: Şirket / Yatırımcı planı"}
           </span>
         </div>
       </motion.header>
@@ -103,8 +132,9 @@ export function DashboardPage() {
                 {initials(user?.name ?? "?")}
               </span>
               <div className="min-w-0">
-                <h2 className="truncate text-lg font-semibold tracking-tight text-white">
-                  {user?.name ?? "Profil"}
+                <h2 className="flex min-w-0 flex-wrap items-center gap-2 text-lg font-semibold tracking-tight text-white">
+                  <span className="truncate">{user?.name ?? "Profil"}</span>
+                  {user?.id ? <AccountRoleBadge userId={user.id} /> : null}
                 </h2>
                 <p className="mt-1 text-sm text-slate-400">
                   {user?.company?.trim()
@@ -149,9 +179,24 @@ export function DashboardPage() {
                   AI önerileriniz
                 </p>
                 <p className="mt-1 text-xs text-slate-500">
-                  Eşleşmeler sayfasında{" "}
-                  <span className="text-slate-400">AI ile eşleştir</span> dediğinizde
-                  en uygun 3 ilan burada saklanır — tekrar istek atılmaz.
+                  {aiPlanOk ? (
+                    <>
+                      Eşleşmeler sayfasında{" "}
+                      <span className="text-slate-400">AI ile eşleştir</span>{" "}
+                      dediğinizde en uygun 3 ilan burada saklanır — tekrar istek atılmaz.
+                    </>
+                  ) : (
+                    <>
+                      Anlamsal AI önerileri yalnızca{" "}
+                      <Link
+                        to="/portal/profil"
+                        className="text-violet-300 underline-offset-2 hover:underline"
+                      >
+                        Bireysel Premium
+                      </Link>{" "}
+                      ile kullanılabilir; diğer planlarda bu alan salt okunur kalır.
+                    </>
+                  )}
                 </p>
               </div>
               {topPayload?.savedAt ? (
@@ -166,7 +211,7 @@ export function DashboardPage() {
               ) : null}
             </div>
 
-            {topStale ? (
+            {topStale && aiPlanOk ? (
               <p className="mt-3 rounded-lg border border-amber-500/20 bg-amber-500/[0.07] px-3 py-2 text-xs text-amber-100/90">
                 Profil yetenekleriniz kayıtlı öneriden sonra değişti.{" "}
                 <Link
@@ -184,7 +229,9 @@ export function DashboardPage() {
                   Henüz kayıtlı öneri yok
                 </p>
                 <p className="mt-2 text-xs text-slate-500">
-                  Kişisel en iyi 3 pozisyonu görmek için eşleşmelerde AI çalıştırın.
+                  {aiPlanOk
+                    ? "Kişisel en iyi 3 pozisyonu görmek için eşleşmelerde AI çalıştırın."
+                    : "Bireysel Premium planında eşleşmelerde AI çalıştırılabilir."}
                 </p>
                 <Link
                   to="/portal/eslesmeler"

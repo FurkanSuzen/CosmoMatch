@@ -14,7 +14,7 @@ const productsCollectionId =
 
 /**
  * Appwrite konsolunda `products` koleksiyonu için önerilen alanlar (string):
- * - title, description, companyName, sellerUserId, category, priceLabel, trl, imageUrl
+ * - title, description, companyName, contactEmail, sellerUserId, category, priceLabel, trl, imageUrl
  * İzinler: oluşturma oturumlu kullanıcılar; okuma `users` (veya `any`).
  */
 export function isMarketplaceDbConfigured(): boolean {
@@ -30,6 +30,7 @@ type ProductDoc = Models.Document & {
   title?: string;
   description?: string;
   companyName?: string;
+  contactEmail?: string;
   sellerUserId?: string;
   category?: string;
   priceLabel?: string;
@@ -53,6 +54,8 @@ function mapDoc(doc: ProductDoc): ProductListing | null {
       typeof doc.description === "string" ? doc.description.trim() : "",
     companyName:
       typeof doc.companyName === "string" ? doc.companyName.trim() : "—",
+    contactEmail:
+      typeof doc.contactEmail === "string" ? doc.contactEmail.trim() : "",
     sellerUserId:
       typeof doc.sellerUserId === "string" ? doc.sellerUserId.trim() : "",
     category: cat,
@@ -126,10 +129,17 @@ function validateListingInput(
   if (companyName.length < 2)
     return { ok: false, error: "Kurum adı girin." };
 
+  const contactEmail = input.contactEmail.trim();
+  if (!contactEmail)
+    return { ok: false, error: "İletişim e-postası zorunludur (alıcılar size bu adresle ulaşır)." };
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(contactEmail))
+    return { ok: false, error: "Geçerli bir iletişim e-postası girin." };
+
   const payload: Record<string, unknown> = {
     title,
     description,
     companyName,
+    contactEmail,
     category: input.category,
     priceLabel: input.priceLabel.trim() || "Teklif üzerine",
     trl: input.trl.trim(),
@@ -207,6 +217,46 @@ export async function updateProductListing(
   } catch (e) {
     if (e instanceof AppwriteException) {
       return { ok: false, error: e.message || "İlan güncellenemedi." };
+    }
+    return { ok: false, error: "Beklenmeyen bir hata oluştu." };
+  }
+}
+
+export async function deleteProductListing(
+  sellerUserId: string,
+  documentId: string,
+): Promise<{ ok: true } | { ok: false; error: string }> {
+  if (!isMarketplaceDbConfigured()) {
+    return { ok: false, error: "Marketplace veritabanı yapılandırılmadı." };
+  }
+  if (!sellerUserId || !documentId.trim()) {
+    return { ok: false, error: "Oturum veya ilan bilgisi eksik." };
+  }
+
+  try {
+    const existing = (await appwriteDatabases.getDocument({
+      databaseId,
+      collectionId: productsCollectionId,
+      documentId,
+    })) as ProductDoc;
+
+    const owner =
+      typeof existing.sellerUserId === "string"
+        ? existing.sellerUserId.trim()
+        : "";
+    if (owner !== sellerUserId) {
+      return { ok: false, error: "Bu ilanı silme yetkiniz yok." };
+    }
+
+    await appwriteDatabases.deleteDocument({
+      databaseId,
+      collectionId: productsCollectionId,
+      documentId,
+    });
+    return { ok: true };
+  } catch (e) {
+    if (e instanceof AppwriteException) {
+      return { ok: false, error: e.message || "İlan silinemedi." };
     }
     return { ok: false, error: "Beklenmeyen bir hata oluştu." };
   }

@@ -17,6 +17,7 @@ type Props = {
   onClose: () => void;
   sellerUserId: string;
   defaultCompany: string;
+  defaultContactEmail: string;
   /** Doluysa form düzenleme modunda açılır. */
   initialListing: ProductListing | null;
   onSuccess: () => void;
@@ -26,6 +27,7 @@ const emptyForm = () => ({
   title: "",
   description: "",
   companyName: "",
+  contactEmail: "",
   category: "payload" as MarketplaceCategoryId,
   priceLabel: "",
   trl: "",
@@ -35,19 +37,25 @@ const emptyForm = () => ({
 function buildForm(
   initialListing: ProductListing | null,
   defaultCompany: string,
+  defaultContactEmail: string,
 ) {
   if (initialListing) {
     return {
       title: initialListing.title,
       description: initialListing.description,
       companyName: initialListing.companyName,
+      contactEmail: initialListing.contactEmail?.trim() ?? "",
       category: initialListing.category,
       priceLabel: initialListing.priceLabel,
       trl: initialListing.trl,
       imageUrl: initialListing.imageUrl,
     };
   }
-  return { ...emptyForm(), companyName: defaultCompany.trim() };
+  return {
+    ...emptyForm(),
+    companyName: defaultCompany.trim(),
+    contactEmail: defaultContactEmail.trim(),
+  };
 }
 
 export function CreateListingModal({
@@ -55,11 +63,12 @@ export function CreateListingModal({
   onClose,
   sellerUserId,
   defaultCompany,
+  defaultContactEmail,
   initialListing,
   onSuccess,
 }: Props) {
   const [form, setForm] = useState(() =>
-    buildForm(initialListing, defaultCompany),
+    buildForm(initialListing, defaultCompany, defaultContactEmail),
   );
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -69,10 +78,10 @@ export function CreateListingModal({
     const listing = initialListing;
     const company = defaultCompany;
     queueMicrotask(() => {
-      setForm(buildForm(listing, company));
+      setForm(buildForm(listing, company, defaultContactEmail));
       setError(null);
     });
-  }, [open, initialListing, defaultCompany]);
+  }, [open, initialListing, defaultCompany, defaultContactEmail]);
 
   function resetAndClose() {
     setForm(emptyForm());
@@ -166,6 +175,25 @@ export function CreateListingModal({
                   className="mt-1.5 w-full rounded-xl border border-white/[0.08] bg-white/[0.04] px-3 py-2.5 text-sm text-slate-100 outline-none focus:border-indigo-400/40 focus:ring-2 focus:ring-indigo-500/25"
                   placeholder={defaultCompany || "Şirket adı"}
                 />
+              </label>
+              <label className="block">
+                <span className="text-xs font-medium text-slate-400">
+                  İletişim e-postası (alıcılar)
+                </span>
+                <input
+                  type="email"
+                  autoComplete="email"
+                  required
+                  value={form.contactEmail}
+                  onChange={(e) =>
+                    setForm((f) => ({ ...f, contactEmail: e.target.value }))
+                  }
+                  className="mt-1.5 w-full rounded-xl border border-white/[0.08] bg-white/[0.04] px-3 py-2.5 text-sm text-slate-100 outline-none focus:border-indigo-400/40 focus:ring-2 focus:ring-indigo-500/25"
+                  placeholder="ornek@sirket.com"
+                />
+                <span className="mt-1 block text-[11px] text-slate-600">
+                  «İletişime geç» varsayılan posta programında bu adrese yönlendirir.
+                </span>
               </label>
               <label className="block">
                 <span className="text-xs font-medium text-slate-400">Kategori</span>

@@ -1,4 +1,4 @@
-import carriersJson from "../assets/carriers.json";
+import carriersJson from "../assets/carriers2.json";
 import type {
   CarriersPayload,
   FlatJobOffer,
@@ -116,4 +116,37 @@ export function formatDeadline(iso: string): string {
     month: "short",
     year: "numeric",
   });
+}
+
+/** Kariyer / genel iletişim adresi; boşsa null */
+export function contactEmailForJob(job: JobOffer): string | null {
+  const e = job.emails;
+  if (!e) return null;
+  const career = e.career?.trim() ?? "";
+  const general = e.general?.trim() ?? "";
+  const addr = career || general;
+  return addr || null;
+}
+
+export function mailtoApplyToJob(job: JobOffer): string | null {
+  const to = contactEmailForJob(job);
+  if (!to) return null;
+  const subject = `${job.organization} – ${job.title} ilanına ilgi`;
+  const body = [
+    "Merhaba,",
+    "",
+    `${job.organization} bünyesindeki "${job.title}" pozisyonu ile ilgileniyorum.`,
+    "Bu ilan hakkında bilgi almak ve başvuru süreci konusunda yönlendirme rica ederim.",
+    "",
+    "Saygılarımla,",
+  ].join("\n");
+  const params = `subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+  return `mailto:${to}?${params}`;
+}
+
+export function openJobContactMail(job: JobOffer): boolean {
+  const href = mailtoApplyToJob(job);
+  if (!href) return false;
+  window.location.href = href;
+  return true;
 }
