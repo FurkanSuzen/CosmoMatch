@@ -1,6 +1,7 @@
 import { motion } from "framer-motion";
 import { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
+import { useAuth } from "../../contexts/AuthContext";
 import logo from "./icon.svg";
 
 const links = [
@@ -13,10 +14,21 @@ const links = [
 const SCROLL_TOP_SHOW = 56;
 const SCROLL_DELTA = 8;
 
+function userInitials(name: string): string {
+  const parts = name.trim().split(/\s+/).filter(Boolean);
+  if (parts.length === 0) return "?";
+  if (parts.length === 1) return parts[0].slice(0, 2).toUpperCase();
+  return (parts[0][0] + parts[parts.length - 1][0]).toUpperCase();
+}
+
 export function Navbar() {
+  const { user, sessionReady } = useAuth();
   const [open, setOpen] = useState(false);
   const [hidden, setHidden] = useState(false);
   const lastScrollY = useRef(0);
+  const loggedIn = sessionReady && user !== null;
+  const profileSubtitle =
+    user?.company?.trim() || user?.email?.trim() || "";
 
   useEffect(() => {
     lastScrollY.current = window.scrollY;
@@ -89,18 +101,61 @@ export function Navbar() {
         </nav>
 
         <div className="flex items-center gap-2 sm:gap-3">
-          <Link
-            to="/giris"
-            className="hidden rounded-full border border-white/[0.1] bg-white/[0.03] px-5 py-2.5 text-[15px] font-medium text-slate-200 transition hover:border-white/[0.18] hover:bg-white/[0.06] sm:inline-flex"
-          >
-            Giriş Yap
-          </Link>
-          <Link
-            to="/kayit"
-            className="hidden rounded-full bg-gradient-to-r from-indigo-500 to-cyan-400 px-5 py-2.5 text-[15px] font-semibold text-slate-950 shadow-[0_0_24px_-6px_rgba(99,102,241,0.45)] transition hover:brightness-110 sm:inline-flex"
-          >
-            Kayıt ol
-          </Link>
+          {!sessionReady ? (
+            <span
+              className="hidden h-11 w-[9.5rem] animate-pulse rounded-full bg-white/[0.06] sm:block"
+              aria-hidden
+            />
+          ) : loggedIn ? (
+            <>
+              <Link
+                to="/portal/profil"
+                className="hidden max-w-[min(100%,240px)] items-center gap-3 rounded-2xl border border-white/[0.1] bg-white/[0.04] py-2 pl-2 pr-4 transition hover:border-white/[0.14] hover:bg-white/[0.07] sm:flex"
+              >
+                <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-gradient-to-br from-indigo-500/45 to-slate-800 text-xs font-semibold text-white ring-1 ring-white/10">
+                  {userInitials(user.name)}
+                </span>
+                <span className="min-w-0 flex-1 text-left">
+                  <span className="block truncate text-sm font-medium text-white">
+                    {user.name}
+                  </span>
+                  {profileSubtitle ? (
+                    <span className="mt-0.5 block truncate text-xs text-slate-500">
+                      {user.company?.trim() ? user.company : user.email}
+                    </span>
+                  ) : null}
+                </span>
+              </Link>
+              <Link
+                to="/portal"
+                className="hidden rounded-full border border-indigo-400/25 bg-indigo-500/10 px-4 py-2.5 text-[14px] font-medium text-indigo-200/95 transition hover:border-indigo-400/35 hover:bg-indigo-500/15 lg:inline-flex"
+              >
+                Panele git
+              </Link>
+              <Link
+                to="/portal/profil"
+                className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl border border-white/10 bg-gradient-to-br from-indigo-500/40 to-slate-800 text-xs font-semibold text-white sm:hidden"
+                aria-label={`Profil: ${user.name}`}
+              >
+                {userInitials(user.name)}
+              </Link>
+            </>
+          ) : (
+            <>
+              <Link
+                to="/giris"
+                className="hidden rounded-full border border-white/[0.1] bg-white/[0.03] px-5 py-2.5 text-[15px] font-medium text-slate-200 transition hover:border-white/[0.18] hover:bg-white/[0.06] sm:inline-flex"
+              >
+                Giriş Yap
+              </Link>
+              <Link
+                to="/kayit"
+                className="hidden rounded-full bg-gradient-to-r from-indigo-500 to-cyan-400 px-5 py-2.5 text-[15px] font-semibold text-slate-950 shadow-[0_0_24px_-6px_rgba(99,102,241,0.45)] transition hover:brightness-110 sm:inline-flex"
+              >
+                Kayıt ol
+              </Link>
+            </>
+          )}
           <button
             type="button"
             className="inline-flex h-12 w-12 items-center justify-center rounded-xl border border-white/10 bg-white/[0.03] text-slate-200 md:hidden"
@@ -152,20 +207,46 @@ export function Navbar() {
                 {l.label}
               </Link>
             ))}
-            <Link
-              to="/giris"
-              className="rounded-lg px-2 py-3.5 text-base font-medium text-slate-200"
-              onClick={() => setOpen(false)}
-            >
-              Giriş Yap
-            </Link>
-            <Link
-              to="/kayit"
-              className="rounded-lg px-2 py-3.5 text-base font-semibold text-indigo-300"
-              onClick={() => setOpen(false)}
-            >
-              Kayıt ol
-            </Link>
+            {loggedIn ? (
+              <>
+                <div className="my-2 border-t border-white/[0.06] pt-2">
+                  <p className="px-2 text-[10px] font-semibold uppercase tracking-wider text-slate-600">
+                    Hesabınız
+                  </p>
+                  <Link
+                    to="/portal/profil"
+                    className="mt-1 block rounded-lg px-2 py-3.5 text-base font-medium text-slate-100"
+                    onClick={() => setOpen(false)}
+                  >
+                    Profil — {user?.name}
+                  </Link>
+                  <Link
+                    to="/portal"
+                    className="block rounded-lg px-2 py-3.5 text-base font-medium text-indigo-300"
+                    onClick={() => setOpen(false)}
+                  >
+                    Çalışma alanı
+                  </Link>
+                </div>
+              </>
+            ) : (
+              <>
+                <Link
+                  to="/giris"
+                  className="rounded-lg px-2 py-3.5 text-base font-medium text-slate-200"
+                  onClick={() => setOpen(false)}
+                >
+                  Giriş Yap
+                </Link>
+                <Link
+                  to="/kayit"
+                  className="rounded-lg px-2 py-3.5 text-base font-semibold text-indigo-300"
+                  onClick={() => setOpen(false)}
+                >
+                  Kayıt ol
+                </Link>
+              </>
+            )}
           </nav>
         </motion.div>
       ) : null}
