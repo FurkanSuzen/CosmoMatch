@@ -105,10 +105,12 @@ export function AccountPlanPicker({ userId }: Props) {
                   {def.subtitle}
                 </p>
               </div>
+              {/*
               <p className="text-2xl font-bold tabular-nums text-white">
                 {formatPlanPriceMonthly(def.priceMonthlyTry)}
                 <span className="text-sm font-medium text-slate-500"> / ay</span>
               </p>
+              */}
               <p className="mt-1 text-[11px] text-slate-500">{def.priceNote}</p>
               <ul className="mt-4 flex-1 space-y-2.5 border-t border-white/[0.06] pt-4 text-xs leading-relaxed text-slate-400">
                 {def.features.map((f) => (
@@ -132,80 +134,6 @@ export function AccountPlanPicker({ userId }: Props) {
             </motion.div>
           );
         })}
-      </div>
-
-      <div className="rounded-2xl border border-white/[0.08] bg-white/[0.02] p-5">
-        <button
-          type="button"
-          onClick={() => setCostOpen((o) => !o)}
-          className="flex w-full items-center justify-between gap-3 text-left"
-          aria-expanded={costOpen}
-        >
-          <div>
-            <p className="text-sm font-semibold text-white">
-              Tahmini operasyon giderleri
-            </p>
-            <p className="mt-1 text-xs text-slate-500">
-              Proje yığınına göre örnek aylık maliyet kalemleri (host, alan adı,
-              veritabanı, güvenlik, LLM). Plan fiyatları bu tabloya göre
-              ölçeklendirilmiştir; yalnızca gösterim içindir.
-            </p>
-          </div>
-          <span className="shrink-0 rounded-lg border border-white/10 bg-black/30 px-3 py-1 text-xs text-slate-400">
-            {costOpen ? "Gizle" : "Göster"}
-          </span>
-        </button>
-
-        {costOpen ? (
-          <div className="mt-5 overflow-x-auto border-t border-white/[0.06] pt-5">
-            <table className="w-full min-w-[520px] text-left text-sm">
-              <thead>
-                <tr className="border-b border-white/[0.08] text-[11px] uppercase tracking-wider text-slate-500">
-                  <th className="pb-3 pr-4 font-medium">Kalem</th>
-                  <th className="pb-3 pr-4 font-medium">Açıklama</th>
-                  <th className="pb-3 text-right font-medium tabular-nums">
-                    Aylık (TRY)
-                  </th>
-                </tr>
-              </thead>
-              <tbody className="text-slate-300">
-                {OPERATIONAL_COST_ROWS.map((row) => (
-                  <tr
-                    key={row.label}
-                    className="border-b border-white/[0.05] last:border-0"
-                  >
-                    <td className="py-3 pr-4 align-top font-medium text-slate-200">
-                      {row.label}
-                    </td>
-                    <td className="py-3 pr-4 align-top text-xs text-slate-500">
-                      {row.detail}
-                    </td>
-                    <td className="py-3 text-right align-top tabular-nums text-slate-200">
-                      {formatPlanPriceMonthly(row.amountTry)}
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-              <tfoot>
-                <tr className="border-t border-white/[0.1]">
-                  <td
-                    colSpan={2}
-                    className="pt-4 text-xs font-semibold uppercase tracking-wider text-slate-500"
-                  >
-                    Örnek toplam (aylık)
-                  </td>
-                  <td className="pt-4 text-right text-base font-bold tabular-nums text-white">
-                    {formatPlanPriceMonthly(costTotal)}
-                  </td>
-                </tr>
-              </tfoot>
-            </table>
-            <p className="mt-4 text-[11px] leading-relaxed text-slate-600">
-              Rakamlar CosmoMatch için Vite + Appwrite + edge barındırma + OpenAI
-              sınıfı bir yığının tahminidir; gerçek faturalama entegrasyonu yoktur.
-            </p>
-          </div>
-        ) : null}
       </div>
     </div>
   );
