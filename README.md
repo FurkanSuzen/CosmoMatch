@@ -144,7 +144,7 @@ CosmoMatch/
 
 Uygulamayı tarayıcınızda hemen deneyin:
 
-**[cosmo-match.vercel.app](https://cosmo-match.vercel.app)**
+**[cosmo-match.vercel.app](https://cosmomatchweb.vercel.app)**
 
 ---
 
