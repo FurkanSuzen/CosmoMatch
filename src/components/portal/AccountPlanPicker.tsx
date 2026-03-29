@@ -1,12 +1,9 @@
 import { motion } from "framer-motion";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 import {
   ACCOUNT_PLANS,
-  formatPlanPriceMonthly,
   getAccountPlanById,
   getStoredAccountPlan,
-  operationalCostTotalTry,
-  OPERATIONAL_COST_ROWS,
   type AccountPlanDefinition,
   type AccountPlanId,
   setStoredAccountPlan,
@@ -35,7 +32,6 @@ export function AccountPlanPicker({ userId }: Props) {
   const [plan, setPlan] = useState<AccountPlanId>(() =>
     getStoredAccountPlan(userId),
   );
-  const [costOpen, setCostOpen] = useState(false);
 
   useEffect(() => {
    setPlan(getStoredAccountPlan(userId));
@@ -47,7 +43,6 @@ export function AccountPlanPicker({ userId }: Props) {
     });
   }, [userId]);
 
-  const costTotal = useMemo(() => operationalCostTotalTry(), []);
 
   function select(id: AccountPlanId) {
     setStoredAccountPlan(userId, id);
