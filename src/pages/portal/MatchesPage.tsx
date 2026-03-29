@@ -244,8 +244,7 @@ export function MatchesPage() {
             <strong className="font-medium text-slate-300">
               AI ile eşleştir
             </strong>{" "}
-            ile anlamsal uyum isteğe bağlı çalışır (sayfa her açıldığında token
-            harcamaz). En uygun 3 ilan panonuzda yerel olarak saklanır.
+            ile anlamsal uyum isteğe bağlı çalışır. En uygun 3 ilan panonuzda yerel olarak saklanır.
           </p>
           <div className="mt-6 flex flex-wrap items-center gap-3">
             <button
@@ -343,8 +342,7 @@ export function MatchesPage() {
           ) : aiStatus === "ok" ? (
             <>
               <strong className="font-semibold">AI skorları hazır.</strong> Liste ve
-              sıralama güncellendi; öneriler ana sayfaya yazıldı (yerel, tekrar token
-              yok).
+              sıralama güncellendi; öneriler ana sayfaya yazıldı .
             </>
           ) : (
             <>

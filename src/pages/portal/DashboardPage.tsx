@@ -244,7 +244,7 @@ export function DashboardPage() {
                 to="/portal/marketplace"
                 className="text-slate-500 transition hover:text-slate-300"
               >
-                Marketplace
+                Pazar Alanı
               </Link>
               <Link
                 to="/portal/network"
