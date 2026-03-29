@@ -36,7 +36,7 @@ export function LoginPage() {
 
   if (!sessionReady) {
     return (
-      <div className="flex min-h-[100dvh] items-center justify-center bg-space-void text-sm text-slate-400">
+      <div className="flex h-dvh items-center justify-center bg-space-void text-sm text-slate-400">
         Yükleniyor…
       </div>
     );
@@ -44,10 +44,11 @@ export function LoginPage() {
 
   return (
     <AuthShell
+      mode="login"
       title="Tekrar hoş geldiniz"
       subtitle="CosmoMatch portalına giriş yaparak eşleşmelerinizi ve ağınızı yönetin."
     >
-      <form onSubmit={onSubmit} className="space-y-5">
+      <form onSubmit={onSubmit} className="space-y-5 sm:space-y-6">
         {error ? (
           <motion.p
             initial={{ opacity: 0, y: -6 }}

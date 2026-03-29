@@ -23,6 +23,17 @@ function formatJoined(iso?: string): string | null {
   }).format(d);
 }
 
+function formatBirthDate(ymd?: string): string | null {
+  if (!ymd?.trim()) return null;
+  const d = new Date(`${ymd.trim()}T12:00:00`);
+  if (Number.isNaN(d.getTime())) return null;
+  return new Intl.DateTimeFormat("tr-TR", {
+    day: "numeric",
+    month: "long",
+    year: "numeric",
+  }).format(d);
+}
+
 export function ProfilePage() {
   const { user, updateProfile } = useAuth();
   const [name, setName] = useState(user?.name ?? "");
@@ -233,6 +244,22 @@ export function ProfilePage() {
                   Üyelik
                 </dt>
                 <dd className="mt-1 text-slate-200">{joinedAt}</dd>
+              </div>
+            ) : null}
+            {formatBirthDate(user.birthDate) ? (
+              <div>
+                <dt className="text-xs font-medium uppercase tracking-wider text-slate-500">
+                  Doğum tarihi
+                </dt>
+                <dd className="mt-1 text-slate-200">{formatBirthDate(user.birthDate)}</dd>
+              </div>
+            ) : null}
+            {user.nationality ? (
+              <div>
+                <dt className="text-xs font-medium uppercase tracking-wider text-slate-500">
+                  Uyruk
+                </dt>
+                <dd className="mt-1 text-slate-200">{user.nationality}</dd>
               </div>
             ) : null}
           </dl>

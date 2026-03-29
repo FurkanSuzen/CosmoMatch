@@ -21,6 +21,8 @@ type UserDoc = Models.Document & {
   name?: string;
   email?: string;
   company?: string;
+  birthDate?: string;
+  nationality?: string;
   skills?: string[];
 };
 
@@ -51,7 +53,14 @@ function normalizeSkills(skills: string[] | undefined): string[] {
 
 async function upsertUserDocument(
   userId: string,
-  data: { name: string; email: string; company?: string; skills?: string[] },
+  data: {
+    name: string;
+    email: string;
+    company?: string;
+    birthDate?: string;
+    nationality?: string;
+    skills?: string[];
+  },
 ): Promise<void> {
   const payload: Record<string, unknown> = {
     name: data.name,
@@ -59,6 +68,11 @@ async function upsertUserDocument(
   };
   if (data.company !== undefined)
     payload.company = data.company === "" ? "" : data.company;
+  if (data.birthDate !== undefined)
+    payload.birthDate = data.birthDate === "" ? "" : data.birthDate.trim();
+  if (data.nationality !== undefined)
+    payload.nationality =
+      data.nationality === "" ? "" : data.nationality.trim();
   if (data.skills !== undefined) payload.skills = normalizeSkills(data.skills);
 
   await appwriteDatabases.upsertDocument({
@@ -93,6 +107,14 @@ export async function loadUserWithProfile(aw: Models.User): Promise<User> {
         typeof doc.company === "string" && doc.company.length > 0
           ? doc.company
           : base.company,
+      birthDate:
+        typeof doc.birthDate === "string" && doc.birthDate.trim().length > 0
+          ? doc.birthDate.trim()
+          : undefined,
+      nationality:
+        typeof doc.nationality === "string" && doc.nationality.trim().length > 0
+          ? doc.nationality.trim()
+          : undefined,
       skills: normalizeSkills(doc.skills),
     };
   } catch (e) {
@@ -113,7 +135,14 @@ export async function loadUserWithProfile(aw: Models.User): Promise<User> {
 /** Profili veritabanına yazar (kayıt / ayarlar güncellemesi). */
 export async function saveUserProfileToDb(
   userId: string,
-  data: { name: string; email: string; company?: string; skills?: string[] },
+  data: {
+    name: string;
+    email: string;
+    company?: string;
+    birthDate?: string;
+    nationality?: string;
+    skills?: string[];
+  },
 ): Promise<void> {
   if (!isUsersDbConfigured()) return;
   await upsertUserDocument(userId, data);
@@ -143,6 +172,14 @@ export async function listUsersFromDb(): Promise<User[]> {
       company:
         typeof d.company === "string" && d.company.trim().length > 0
           ? d.company.trim()
+          : undefined,
+      birthDate:
+        typeof d.birthDate === "string" && d.birthDate.trim().length > 0
+          ? d.birthDate.trim()
+          : undefined,
+      nationality:
+        typeof d.nationality === "string" && d.nationality.trim().length > 0
+          ? d.nationality.trim()
           : undefined,
       skills: normalizeSkills(d.skills),
     };

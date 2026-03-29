@@ -15,6 +15,22 @@ import type { User } from "../types/user";
 
 export type { User };
 
+function validateBirthDate(iso: string): { ok: true } | { ok: false; error: string } {
+  const t = iso.trim();
+  if (!/^\d{4}-\d{2}-\d{2}$/.test(t))
+    return { ok: false, error: "Geçerli bir doğum tarihi seçin." };
+  const d = new Date(`${t}T12:00:00`);
+  if (Number.isNaN(d.getTime()))
+    return { ok: false, error: "Geçerli bir doğum tarihi seçin." };
+  const today = new Date();
+  today.setHours(23, 59, 59, 999);
+  if (d > today) return { ok: false, error: "Doğum tarihi gelecekte olamaz." };
+  const min = new Date();
+  min.setFullYear(min.getFullYear() - 120);
+  if (d < min) return { ok: false, error: "Doğum tarihi geçersiz görünüyor." };
+  return { ok: true };
+}
+
 function formatAuthError(e: unknown): string {
   if (e instanceof AppwriteException) {
     return e.message || "İstek başarısız.";
@@ -33,6 +49,8 @@ type AuthContextValue = {
     email: string;
     password: string;
     company?: string;
+    birthDate: string;
+    nationality: string;
   }) => Promise<{ ok: true } | { ok: false; error: string }>;
   /** Görünen ad ve tercihler (kurum); Auth + `users` koleksiyonu senkron. */
   updateProfile: (data: {
@@ -107,6 +125,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       email: string;
       password: string;
       company?: string;
+      birthDate: string;
+      nationality: string;
     }) => {
       if (!isAppwriteConfigured) {
         return {
@@ -117,10 +137,18 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       }
       const email = data.email.trim().toLowerCase();
       const name = data.name.trim();
+      const nationality = data.nationality.trim();
       if (!name || !email || !data.password)
         return { ok: false as const, error: "Tüm zorunlu alanları doldurun." };
       if (data.password.length < 8)
         return { ok: false as const, error: "Şifre en az 8 karakter olmalı." };
+      if (!data.birthDate?.trim())
+        return { ok: false as const, error: "Doğum tarihi gerekli." };
+      if (!nationality)
+        return { ok: false as const, error: "Uyruk gerekli." };
+      const birthCheck = validateBirthDate(data.birthDate);
+      if (!birthCheck.ok) return { ok: false as const, error: birthCheck.error };
+      const birthDate = data.birthDate.trim();
 
       try {
         await appwriteAccount.create({
@@ -138,6 +166,14 @@ export function AuthProvider({ children }: { children: ReactNode }) {
           await appwriteAccount.updatePrefs({ prefs: { company } });
         }
         const aw = await appwriteAccount.get();
+        await saveUserProfileToDb(aw.$id, {
+          name,
+          email,
+          company: company ?? "",
+          skills: [],
+          birthDate,
+          nationality,
+        });
         setUser(await loadUserWithProfile(aw));
         return { ok: true as const };
       } catch (e) {
@@ -171,11 +207,14 @@ export function AuthProvider({ children }: { children: ReactNode }) {
           prefs: { ...prevPrefs, company: companyTrim },
         });
         const current = await appwriteAccount.get();
+        const profile = await loadUserWithProfile(current);
         await saveUserProfileToDb(current.$id, {
           name,
           email: current.email,
           company: companyTrim,
           skills: data.skills,
+          birthDate: profile.birthDate,
+          nationality: profile.nationality,
         });
         setUser(await loadUserWithProfile(current));
         return { ok: true as const };
