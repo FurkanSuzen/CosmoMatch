@@ -19,7 +19,7 @@
 
 <br/>
 
-[![Deploy](https://img.shields.io/badge/▶_Canlı_Demo-cosmomatchweb.vercel.app-000000?style=for-the-badge&logo=vercel)](https://cosmo-match.vercel.app)
+[![Deploy](https://img.shields.io/badge/▶_Canlı_Demo-cosmomatchweb.vercel.app-000000?style=for-the-badge&logo=vercel)](https://cosmomatchweb.vercel.app)
 [![License](https://img.shields.io/badge/Lisans-MIT-green?style=for-the-badge)](LICENSE)
 
 <br/>
